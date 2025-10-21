@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+    <link th:href="@{/style.css}" rel="styleSheet"/>
+</head>
+<body>
+<p class="textBox" th:text="${name} + ' tags'"></p>
+<table>
+    <tr th:each="tag : ${touristAttraction.getTags()}">
+        <td th:text="${tag}"></td>
+    </tr>
+</table>
+
+<a class="linkToButton" th:href="@{/attractions}" >Tilbage</a>
+
+</body>
+</html>

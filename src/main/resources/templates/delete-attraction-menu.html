@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fjern attraktion</title>
+</head>
+<body>
+<form action="#" th:action="@{/attractions/delete}" th:object="${touristAttractions}" method="post">
+    <label>User Role</label>
+    <select th:field="${touristAttractions}">
+        <option th:each="role: ${touristAttractions}" th:value="${touristAttraction}" th:text="${name}"></option>
+    </select>
+    <br>
+    <button type="submit">Confirm</button>
+
+
+
+
+
+</form>
+</body>
+</html>
