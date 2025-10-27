@@ -34,8 +34,8 @@ public class WishlistService
         return wishlistRepository.getAllWishes();
     }
 
-    public void deleteWish(String name)
+    public boolean deleteWish(long id)
     {
-        wishlistRepository.deleteWish(name);
+        return wishlistRepository.deleteWishById(id) > 0;
     }
 }
