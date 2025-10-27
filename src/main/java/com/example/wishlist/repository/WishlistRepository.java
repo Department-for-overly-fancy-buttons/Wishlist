@@ -59,7 +59,13 @@ public class WishlistRepository
             (
                     rs.getString("name"),
                     rs.getString("description"),
-                    rs.getString("url")
+                    rs.getString("url"),
+                    rs.getInt("id")
             );
 
+    public void deleteWish(String name)
+    {
+        String delete = "delete from wish where name = ?";
+        jdbcTemplate.update(delete, name);
+    }
 }
