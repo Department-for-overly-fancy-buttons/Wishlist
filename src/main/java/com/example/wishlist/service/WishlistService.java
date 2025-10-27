@@ -21,7 +21,7 @@ public class WishlistService
         if (wish != null
             && wish.getName() != null
             && !wish.getName().isEmpty()
-            && wishlistRepository.getWish(wish.getName()) == null)
+            && wishlistRepository.getWish(wish.getId()) == null)
         {
             return wishlistRepository.addWish(wish);
         }
@@ -34,8 +34,20 @@ public class WishlistService
         return wishlistRepository.getAllWishes();
     }
 
-    public boolean deleteWish(long id)
+    public Wish getWish(int id)
+    {
+        return wishlistRepository.getWish(id);
+    }
+
+    public Wish getName(String name)
+
+    public boolean deleteWish(int id)
     {
         return wishlistRepository.deleteWishById(id) > 0;
+    }
+
+    public void updateWish(Wish wish)
+    {
+        wishlistRepository.updateWish(wish);
     }
 }

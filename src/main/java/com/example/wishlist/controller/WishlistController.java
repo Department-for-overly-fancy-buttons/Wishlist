@@ -39,8 +39,21 @@ public class WishlistController
         return "wish-list";
     }
 
+    @GetMapping("/{id}/edit")
+    public String showUpdateWishForm(@PathVariable int id, Model model)
+    {
+        Wish wish = wishlistService.getWish(id);
+        if (wish != null)
+        {
+            model.addAttribute("wish", wish);
+
+            return "update-wish-form";
+        }
+        return "redirect:/";
+    }
+
     @PostMapping("{id}/delete")
-    public String deleteWish(@PathVariable long id, RedirectAttributes redirectAttributes)
+    public String deleteWish(@PathVariable int id, RedirectAttributes redirectAttributes)
     {
         boolean deleted = wishlistService.deleteWish(id);
         wishlistService.deleteWish(id);
@@ -56,5 +69,13 @@ public class WishlistController
         }
         return "redirect:/wishes";
     }
+
+    @PostMapping("/update")
+    public String updateWish(@ModelAttribute Wish wish)
+    {
+        wishlistService.updateWish(wish);
+        return "redirect:/wishes";
+    }
+
 }
 

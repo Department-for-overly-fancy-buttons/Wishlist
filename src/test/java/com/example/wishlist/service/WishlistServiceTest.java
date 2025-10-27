@@ -25,34 +25,34 @@ public class WishlistServiceTest
     @Test
     void addWish_success_returnsWish_andCallsRepo()
     {
-        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk");
-        when(repository.getWish("Billede")).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk"));
+        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1);
+        when(repository.getWish(1)).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1));
 
         Wish result = service.addWish(input);
 
         assertThat(result).isNull();
-        verify(repository).getWish("Billede");
+        verify(repository).getWish(1);
         verify(repository).addWish(input);
     }
 
     @Test
     void addWish_duplicate_returnsNull_andDoesNotCallAdd()
     {
-        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk");
-        when(repository.getWish("Billede")).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk"));
+        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1);
+        when(repository.getWish(1)).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1));
 
         Wish result = service.addWish(input);
 
         assertThat(result).isNull();
-        verify(repository).getWish("Billede");
+        verify(repository).getWish(1);
         verify(repository, never()).addWish(any());
     }
 
     @Test
     void addWish_invalidName_returnsNull_andNoRepoCalls()
     {
-        Wish nullName = new Wish(null, "description", "url");
-        Wish emptyName = new Wish("", "description", "url");
+        Wish nullName = new Wish(null, "description", "url", 1);
+        Wish emptyName = new Wish("", "description", "url", 1);
 
         verifyNoInteractions(repository);
     }
