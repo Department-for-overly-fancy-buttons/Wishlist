@@ -42,10 +42,10 @@ public class WishlistRepository
         return wish;
     }
 
-    public Wish getWish(String name)
+    public Wish getWish(int id)
     {
-        String sql = "SELECT name, description, url FROM wish WHERE name = ?";
-        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, name);
+        String sql = "SELECT name, description, url FROM wish WHERE id = ?";
+        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, id);
         return result.isEmpty() ? null : result.get(0);
     }
 
@@ -63,8 +63,29 @@ public class WishlistRepository
                     rs.getInt("id")
             );
 
-    public int deleteWishById(long id)
+    public int deleteWishById(int id)
     {
-        return jdbcTemplate.update("DELETE FROM wish WHERE id = ?", id);
+        return jdbcTemplate.update("DELETE FROM wish WHERE wishId = ?", id);
+    }
+
+    public void updateWish(Wish updatedWish)
+    {
+        Wish wish = getWish(updatedWish.getId());
+        if (updatedWish.getDescription() != null)
+        {
+            wish.setDescription(updatedWish.getDescription());
+        }
+        if (updatedWish.getUrl() != null)
+        {
+            wish.setUrl(updatedWish.getUrl());
+        }
+        if (updatedWish.getName() != null)
+        {
+            wish.setName(updatedWish.getName());
+        }
+
+        jdbcTemplate.update
+                ("UPDATE wish SET description=?, name=?, url=? WHERE id=?",
+                wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
     }
 }
