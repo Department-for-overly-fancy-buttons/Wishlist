@@ -5,9 +5,10 @@ import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/wishes/{id}")
+@RequestMapping("/wishes")
 public class WishlistController
 {
     private final WishlistService wishlistService;
@@ -20,7 +21,7 @@ public class WishlistController
     @GetMapping("/add")
     public String showAddWishForm(Model model)
     {
-        model.addAttribute("wish", new Wish(null, null, null, 0));
+        model.addAttribute("wish", new Wish());
         return "add-wish-form";
     }
 
@@ -28,13 +29,7 @@ public class WishlistController
     public String addWish(@ModelAttribute Wish wish)
     {
         Wish resultingWish = wishlistService.addWish(wish);
-
-        if (resultingWish != null)
-        {
-            return "redirect:/wishes";
-        }
-
-        return "redirect:/";
+        return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
     }
 
     @GetMapping
@@ -44,11 +39,22 @@ public class WishlistController
         return "wish-list";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteWish(@PathVariable String id)
+    @PostMapping("{id}/delete")
+    public String deleteWish(@PathVariable long id, RedirectAttributes redirectAttributes)
     {
+        boolean deleted = wishlistService.deleteWish(id);
         wishlistService.deleteWish(id);
-        return "redirect:/wishes/{id}";
+        if (deleted)
+        {
+            redirectAttributes.addFlashAttribute("message", "Wish deleted");
+            redirectAttributes.addFlashAttribute("messageType", "success");
+        }
+        else
+        {
+            redirectAttributes.addFlashAttribute("message", "Wish did not exist and could therefore not be deleted");
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+        return "redirect:/wishes";
     }
 }
 

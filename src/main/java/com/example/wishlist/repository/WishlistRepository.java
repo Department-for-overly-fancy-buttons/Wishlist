@@ -63,9 +63,8 @@ public class WishlistRepository
                     rs.getInt("id")
             );
 
-    public void deleteWish(String name)
+    public int deleteWishById(long id)
     {
-        String delete = "delete from wish where name = ?";
-        jdbcTemplate.update(delete, name);
+        return jdbcTemplate.update("DELETE FROM wish WHERE id = ?", id);
     }
 }
