@@ -5,17 +5,31 @@ public class Wish
     private String name;
     private String description;
     private String url;
+    private int id;
 
     public Wish()
     {
 
     }
 
-    public Wish(String name, String description, String url)
+
+
+    public Wish(String name, String description, String url, int id)
     {
         this.name = name;
         this.description = description;
         this.url = url;
+        this.id = id;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getName()

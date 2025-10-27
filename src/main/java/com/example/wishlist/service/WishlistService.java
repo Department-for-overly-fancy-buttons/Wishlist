@@ -33,4 +33,9 @@ public class WishlistService
     {
         return wishlistRepository.getAllWishes();
     }
+
+    public void deleteWish(String name)
+    {
+        wishlistRepository.deleteWish(name);
+    }
 }
