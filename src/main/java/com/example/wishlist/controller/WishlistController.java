@@ -1,6 +1,7 @@
 package com.example.wishlist.controller;
 
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,17 @@ public class WishlistController
         this.wishlistService = wishlistService;
     }
 
+    @GetMapping()
+    public String createWishlist(Model model){
+        model.addAttribute("wishlist", new Wishlist());
+        return "index";
+    }
+
+    @PostMapping("/create/wishlist")
+    public String createNewWishlist(){
+        return "redirect:/";
+    }
+
     @GetMapping("/add")
     public String showAddWishForm(Model model)
     {
@@ -32,7 +44,7 @@ public class WishlistController
         return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
     }
 
-    @GetMapping
+    @GetMapping("/allwishes")
     public String getAllWishes(Model model)
     {
         model.addAttribute("wishes", wishlistService.getAllWishes());

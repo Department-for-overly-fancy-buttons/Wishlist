@@ -3,7 +3,7 @@
     --bg: #84E296;
     --box_bg: #006600;
     --accent: #20ceb4;
-    --text: #00ff00;
+    --text: black;
 }
 
 * {
@@ -15,14 +15,15 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--bg);
+    background: linear-gradient(90deg, deeppink,forestgreen,hotpink,aqua,deeppink);
+    background-size: 400%;
+    animation: animate_79 50s linear infinite;
     color: var(--text);
 }
 
 nav {
     width: 100%;
     height: 7%;
-    background-color: var(--box_bg);
     padding: 2em;
     margin: 0;
     border: 0;
@@ -32,6 +33,9 @@ nav {
     backdrop-filter: blur(8px);
     display: grid;
     grid-template-columns: 45% auto auto;
+    background: linear-gradient(90deg, pink,palegreen,lightpink,turquoise,pink);
+    background-size: 400%;
+    animation: animate_79 50s linear infinite;
 }
 
 
@@ -56,7 +60,8 @@ th {
 }
 
 a {
-    color: var(--accent);
+    color: black;
+    text-decoration: none;
 }
 
 .imageBox {
@@ -79,55 +84,67 @@ a {
     border: 0;
 }
 
-.linkToButton:hover, button:hover{
-    background-color: #ff00ff;
-    font-size: 20px;
-}
-
-.linkToButton, button {
-    font-family: "Times New Roman";
-    text-decoration: none;
-    appearance: auto;
-    font-style: ;
-    font-variant-ligatures: ;
-    font-variant-caps: ;
-    font-variant-numeric: ;
-    font-variant-east-asian: ;
-    font-variant-alternates: ;
-    font-variant-position: ;
-    font-variant-emoji: ;
-    font-weight: ;
-    font-stretch: ;
-    font-size: 15px ;
-    font-family: ;
-    font-optical-sizing: ;
-    font-size-adjust: ;
-    font-kerning: ;
-    font-feature-settings: ;
-    font-variation-settings: ;
-    text-rendering: auto;
-    color: buttontext;
-    letter-spacing: normal;
-    word-spacing: normal;
-    line-height: normal;
-    text-transform: none;
-    text-indent: 0px;
-    text-shadow: none;
-    display: inline-block;
-    text-align: center;
-    cursor: default;
-    box-sizing: border-box;
-    background-color: buttonface;
-    margin: 0em 0em 0em 0em;
-    padding-block: 1px;
-    padding-inline: 6px;
-    border-width: 2px;
-    border-style: outset;
-    border-color: buttonborder;
-}
-
 form {
-    display: inline-grid;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    gap: normal;
+    text-align: center;
+    min-inline-size: 400px;
+}
+
+.formButton{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 32px;
+    margin-bottom: 10px;
+    min-width: 400px;
+}
+
+.formButton:hover{
+    box-shadow: 0 0 50px 0 #ff00ff;
+    transform: matrix3d(0.5,
+    0,
+    -0.866025,
+    0,
+    0.595877,
+    1.2,
+    -1.03209,
+    0,
+    0.866025,
+    0,
+    0.5,
+    0,
+    25.9808,
+    0,
+    15,
+    1);
+    transition: 5s;
+}
+
+input{
+    font-size: 32px;
+    margin-bottom: 10px;
+    min-width: 400px;
+}
+label{
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+@keyframes animate_79 {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 400%;
+    }
 }
 
 
