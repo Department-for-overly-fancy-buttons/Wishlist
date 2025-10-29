@@ -19,15 +19,21 @@ public class WishlistController
         this.wishlistService = wishlistService;
     }
 
-    @GetMapping()
-    public String createWishlist(Model model){
-        model.addAttribute("wishlist", new Wishlist());
-        return "create-wishlist-form";
+    @GetMapping("/my_wishlists")
+    public String viewAllWishlist(Model model) {
+        model.addAttribute("wishlists", wishlistService.getAllWishlists());
+        return "view-wishlists";
     }
 
-    @PostMapping("/create/wishlist")
-    public String createNewWishlist(){
-        return "redirect:/";
+    //skal required være lig false?
+    @GetMapping("{title}")
+    public String showWishlist(@PathVariable(required = false) String title, Model model) {
+        Wishlist wishlist = wishlistService.getWishlist(title);
+        if (wishlist != null) {
+            model.addAttribute("wishlist", wishlist);
+            return "view-wishlist";
+        }
+        return "redirect:/"; //create fail state
     }
 
     @GetMapping("/add")
@@ -44,12 +50,12 @@ public class WishlistController
         return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
     }
 
-    @GetMapping("/allwishes")
-    public String getAllWishes(Model model)
-    {
-        model.addAttribute("wishes", wishlistService.getAllWishes());
-        return "wish-list";
-    }
+//    @GetMapping("/")
+//    public String getAllWishes(Model model)
+//    {
+//        model.addAttribute("wishes", wishlistService.getAllWishes());
+//        return "wish-list";
+//    }
 
     @GetMapping("/{id}/edit")
     public String showUpdateWishForm(@PathVariable int id, Model model)
