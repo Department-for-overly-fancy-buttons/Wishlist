@@ -23,7 +23,7 @@ public class WishlistService
 
     public Wishlist getWishlist(String name) {
         Wishlist wishlist = wishlistRepository.findWishlistByName(name);
-        List<Wish> wishes = wishlistRepository.getAllWishes(wishlist.getWishlistId());
+        List<Wish> wishes = wishlistRepository.getAllWishes(wishlist.getId());
         wishlist.setWishes(wishes);
         return wishlist;
     }
@@ -41,9 +41,9 @@ public class WishlistService
         return null;
     }
 
-    public List<Wish> getAllWishes()
+    public List<Wish> getAllWishes(int wishlistId)
     {
-        return wishlistRepository.getAllWishes();
+        return wishlistRepository.getAllWishes(wishlistId);
     }
 
     public Wish getWish(int id)
@@ -51,7 +51,7 @@ public class WishlistService
         return wishlistRepository.getWish(id);
     }
 
-    public Wish getName(String name)
+    /*public Wish getName(String name)*/
 
     public boolean deleteWish(int id)
     {
