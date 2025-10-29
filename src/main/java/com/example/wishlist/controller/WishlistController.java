@@ -22,7 +22,7 @@ public class WishlistController
     @GetMapping()
     public String createWishlist(Model model){
         model.addAttribute("wishlist", new Wishlist());
-        return "index";
+        return "create-wishlist-form";
     }
 
     @PostMapping("/create/wishlist")

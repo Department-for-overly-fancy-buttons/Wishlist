@@ -85,6 +85,7 @@ a {
 }
 
 form {
+    display: grid;
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
@@ -92,6 +93,7 @@ form {
     gap: normal;
     text-align: center;
     min-inline-size: 400px;
+    font-size: 32px;
 }
 
 .formButton{
@@ -102,6 +104,8 @@ form {
     font-size: 32px;
     margin-bottom: 10px;
     min-width: 400px;
+    background-color: white;
+    font-family:auto;
 }
 
 .formButton:hover{
@@ -125,7 +129,16 @@ form {
     transition: 5s;
 }
 
-input{
+.wishlistButton{
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+input {
     font-size: 32px;
     margin-bottom: 10px;
     min-width: 400px;
@@ -135,6 +148,21 @@ label{
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
+    min-width: 400px;
+}
+
+.homepage{
+    text-align: center;
+    max-width: 400px;
+    min-inline-size: 400px;
+    margin: 50px auto;
+    font-size: 32px;
+}
+
+#wishDescription{
+    height: 150px;
+    font-size: 32px;
+    margin-bottom: 10px;
     min-width: 400px;
 }
 

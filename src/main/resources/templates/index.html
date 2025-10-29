@@ -10,15 +10,8 @@
     <div><a href="/" title="Gå tilbage til forsiden">Wishlist</a></div>
 </nav>
 
-<div>
-    <form action="#" th:action="@{wishes/create/wishlist}" th:object="${wishlist}" method="post">
-        <label for="wishlistName">Navn for ønskelisten</label>
-            <input id="wishlistName" type="text" th:field="${wishlist.name}" th:placeholder="Wishlist">
-        <br>
-        <button class="formButton" type="submit">Create wishlist</button>
-        <br>
-        <button class="formButton" th:href="@{/wishes}">Tilbage</button>
-    </form>
+<div class="homepage">
+<a class="wishlistButton" th:href="@{/wishes}">Create a new wishlist</a>
 </div>
 
 </body>
