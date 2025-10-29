@@ -14,9 +14,7 @@
     <form action="#" th:action="@{wishes/create/wishlist}" th:object="${wishlist}" method="post">
         <label for="wishlistName">Name for wishlist</label>
         <input id="wishlistName" type="text" th:field="${wishlist.name}" th:placeholder="Wishlist">
-        <br>
         <button class="formButton" type="submit">Create wishlist</button>
-        <br>
         <a class="formButton" th:href="@{/}">Back</a>
     </form>
 </div>

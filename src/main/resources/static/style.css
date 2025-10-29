@@ -86,11 +86,11 @@ a {
 
 form {
     display: grid;
+    grid-gap: 5px;
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
     border-radius: 8px;
-    gap: normal;
     text-align: center;
     min-inline-size: 400px;
     font-size: 32px;
