@@ -1,6 +1,7 @@
 package com.example.wishlist.controller;
 
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,23 @@ public class WishlistController
         this.wishlistService = wishlistService;
     }
 
+    @GetMapping("/my_wishlists")
+    public String viewAllWishlist(Model model) {
+        model.addAttribute("wishlists", wishlistService.getAllWishlists());
+        return "view-wishlists";
+    }
+
+    //skal required være lig false?
+    @GetMapping("{title}")
+    public String showWishlist(@PathVariable(required = false) String title, Model model) {
+        Wishlist wishlist = wishlistService.getWishlist(title);
+        if (wishlist != null) {
+            model.addAttribute("wishlist", wishlist);
+            return "view-wishlist";
+        }
+        return "redirect:/"; //create fail state
+    }
+
     @GetMapping("/add")
     public String showAddWishForm(Model model)
     {
@@ -32,12 +50,12 @@ public class WishlistController
         return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
     }
 
-    @GetMapping
-    public String getAllWishes(Model model)
-    {
-        model.addAttribute("wishes", wishlistService.getAllWishes());
-        return "wish-list";
-    }
+//    @GetMapping("/")
+//    public String getAllWishes(Model model)
+//    {
+//        model.addAttribute("wishes", wishlistService.getAllWishes());
+//        return "wish-list";
+//    }
 
     @GetMapping("/{id}/edit")
     public String showUpdateWishForm(@PathVariable int id, Model model)
