@@ -2,34 +2,17 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>TuristGuide</title>
+    <title>Wish</title>
     <link rel="styleSheet" th:href="@{/style.css}"/>
 </head>
 <body>
-    <nav>
-        <p id="TitleName">ForlystelsesGuiden</p><a href="/attractions">Forlystelses parker</a> <a href="/attractions/tivoli">Tivoli</a>
-    </nav>
+<nav>
+    <div><a href="/" title="Gå tilbage til forsiden">Wishlist</a></div>
+</nav>
 
+<div class="homepage">
+<a class="wishlistButton" th:href="@{/wishes}">Create a new wishlist</a>
+</div>
 
-    <div class="textBox">
-        <p>Velkommen til Den danske forlystelses guide. Find alle de bedste parker på de danske øer. Søger du adrenalin,
-            eller vil du vide hvilke forlystelser man skal undgå, så er vi guiden til dig</p>
-    </div>
-    <div class="imageBox"><img width="27%" src="images/pexels-pixabay-106155.jpg" alt="Billede af en rutsjebane">
-    <img width="27%" src="images/RollerCoasterIllustration.png" alt="Illustration af en rutsjebane"></div>
-
-    <div class="textBox">
-        <ul>
-            <li><a href="https://rejseplanen.dk/">Find vej til parkerne med rejseplanen</a></li>
-            <li><a href="https://www.tivoli.dk/">Danmarks største forlystelsespark</a></li>
-            <li><a href="https://bornibyen.dk/articles/10-fede-forlystelsesparker-i-danmark">Andres meninger om danmarks parker</a></li>
-        </ul>
-    </div>
-
-    <footer>
-        <p>Kontakt oplysninger <br>Teknisk hjælp : <a href="mailto:ForlystelsesGuiden@teknikker.dk">ForlystelsesGuiden@teknikker.dk</a><br>
-        Lokal guide : <a href="mailto:ForlystelsesGuiden@guide.dk">ForlystelsesGuiden@guide.dk</a>
-        </p>
-    </footer>
 </body>
 </html>

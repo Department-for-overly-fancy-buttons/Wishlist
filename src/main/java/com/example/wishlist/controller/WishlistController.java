@@ -24,6 +24,16 @@ public class WishlistController
         model.addAttribute("wishlists", wishlistService.getAllWishlists());
         return "view-wishlists";
     }
+    @GetMapping()
+    public String createWishlist(Model model){
+        model.addAttribute("wishlist", new Wishlist());
+        return "create-wishlist-form";
+    }
+
+    @PostMapping("/create/wishlist")
+    public String createNewWishlist(){
+        return "redirect:/";
+    }
 
     //skal required være lig false?
     @GetMapping("{title}")
