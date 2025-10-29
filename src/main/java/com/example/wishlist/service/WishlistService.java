@@ -1,6 +1,7 @@
 package com.example.wishlist.service;
 
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.repository.WishlistRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,17 @@ public class WishlistService
     public WishlistService(WishlistRepository wishlistRepository)
     {
         this.wishlistRepository = wishlistRepository;
+    }
+
+    public List<Wishlist> getAllWishlists() {
+        return wishlistRepository.getAllWishlists();
+    }
+
+    public Wishlist getWishlist(String name) {
+        Wishlist wishlist = wishlistRepository.findWishlistByName(name);
+        List<Wish> wishes = wishlistRepository.getAllWishes(wishlist.getWishlistId());
+        wishlist.setWishes(wishes);
+        return wishlist;
     }
 
     public Wish addWish(Wish wish)
