@@ -11,7 +11,7 @@
 </nav>
 
 <div>
-    <form action="#" th:action="@{wishes/create/wishlist}" th:object="${wishlist}" method="post">
+    <form action="#" th:action="@{/wishes/create/wishlist}" th:object="${wishlist}" method="post">
         <label for="wishlistName">Name for wishlist</label>
         <input id="wishlistName" type="text" th:field="${wishlist.name}" th:placeholder="Wishlist">
         <button class="formButton" type="submit">Create wishlist</button>

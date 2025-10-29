@@ -9,7 +9,7 @@
 <nav>
     <div><a href="/" title="Gå tilbage til forsiden">Wishlist</a></div>
 </nav>
-<form action="#" th:action="@{wishes/save}" th:object="${wish}" method="post">
+<form action="#" th:action="@{/wishes/save}" th:object="${wish}" method="post">
     <label for="wishName">Name of your wish</label>
     <input id="wishName" type="text" th:field="${wish.name}" th:placeholder="Name">
     <label for="wishDescription">Description of your wish</label>
