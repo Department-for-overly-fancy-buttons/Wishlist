@@ -1,6 +1,7 @@
 package com.example.wishlist.repository;
 
 import com.example.wishlist.model.Wish;
+import com.example.wishlist.model.Wishlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,24 @@ public class WishlistRepository
     public WishlistRepository(JdbcTemplate jdbcTemplate)
     {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<Wishlist> getAllWishlists() {
+        String sql = "SELECT * FROM wishlists";
+        return jdbcTemplate.query(sql, wishlistRowMapper);
+    }
+
+    //add keymanager to extarct wishlist id
+    //add wishlist_id as an atribute in the Wishlist class
+    //Should wishlist be found by nam or by id?
+    public Wishlist findWishlistByName(String name) {
+        String sql = "SELECT * FROM wishlists where name = ?";
+        List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name);
+        if (wishlists.size() > 0) {
+            Wishlist wishlist = wishlists.get(0);
+            return wishlist;
+        }
+        return null;
     }
 
     public Wish addWish(Wish wish)
@@ -49,9 +68,9 @@ public class WishlistRepository
         return result.isEmpty() ? null : result.get(0);
     }
 
-    public List<Wish> getAllWishes()
+    public List<Wish> getAllWishes(int wishlistId)
     {
-        String sql = "SELECT name, description, url FROM wish";
+        String sql = "SELECT name, description, url FROM wish WHERE wishlist_id = ?";
         return jdbcTemplate.query(sql, wishRowMapper);
     }
 
@@ -61,6 +80,13 @@ public class WishlistRepository
                     rs.getString("description"),
                     rs.getString("url"),
                     rs.getInt("id")
+            );
+
+    private final RowMapper<Wishlist> wishlistRowMapper = (rs, RowNum) -> new Wishlist
+            (
+                    rs.getInt("WishlistId"),
+                    rs.getString("Title"),
+                    rs.getInt("OwnerId")
             );
 
     public int deleteWishById(int id)
