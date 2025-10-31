@@ -2,10 +2,10 @@ package com.example.wishlist.model;
 
 public class Wish
 {
+    private int id;
     private String name;
     private String description;
     private String url;
-    private int id;
 
     public Wish()
     {
@@ -14,12 +14,12 @@ public class Wish
 
 
 
-    public Wish(String name, String description, String url, int id)
+    public Wish(int id, String name, String description, String url)
     {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.url = url;
-        this.id = id;
     }
 
     public int getId()

@@ -45,18 +45,18 @@ public class WishlistController
         Account foundAccount = wishlistService.logIn(account);
         session.setAttribute("account", account);
         session.setMaxInactiveInterval(10);
-        return "redirect:/wishes";
+        return "redirect:/wishes/my_wishlists";
     }
 
     @GetMapping("/my_wishlists")
     public String viewAllWishlist(Model model) {
         model.addAttribute("wishlists", wishlistService.getAllWishlists());
-        return "view-wishlists";
+        return "view_wishlists";
     }
     @GetMapping()
     public String createWishlist(Model model, HttpSession session){
         if(session.getAttribute("account") == null){
-            return "redirect:/";
+            return "redirect:/wishes/my_wishlists";
         }
         model.addAttribute("wishlist", new Wishlist());
         return "create-wishlist-form";
@@ -68,7 +68,7 @@ public class WishlistController
     }
 
     //skal required være lig false?
-    @GetMapping("{title}")
+    @GetMapping("{title}/view")
     public String showWishlist(@PathVariable(required = false) String title, Model model) {
         Wishlist wishlist = wishlistService.getWishlist(title);
         if (wishlist != null) {
@@ -76,6 +76,16 @@ public class WishlistController
             return "view-wishlist";
         }
         return "redirect:/"; //create fail state
+    }
+
+    @GetMapping("/{title}/{name}/view")
+    public String showWish(@PathVariable(required = false) String name, Model model, @PathVariable String title){
+        Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
+        if(wish != null){
+            model.addAttribute("wish", wish);
+            return "view-wish";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/add")

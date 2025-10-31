@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>my wishlists</title>
+    <link th:href="@{/style.css}" rel="styleSheet"/>
+</head>
+<body>
+<h1 class="textBox">wishlists:</h1>
+<table>
+    <tr th:if="${wishlists.isEmpty()}">There are no wishlists</tr>
+    <tr th:if="${!wishlists.isEmpty()}">
+        <th>Navn</th>
+    </tr>
+    <tr th:each="wishlist: ${wishlists}">
+        <td th:text="${wishlist.title}"></td>
+        <td>
+            <a class="linkToButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Open</a>
+        </td>
+    </tr>
+</table>
+
+<a class="linkToButton" th:href="@{/wishes}">Add new wishlist</a>
+</body>
+</html>

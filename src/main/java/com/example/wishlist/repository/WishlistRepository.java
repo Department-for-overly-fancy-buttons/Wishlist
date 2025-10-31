@@ -30,7 +30,7 @@ public class WishlistRepository
     //add wishlist_id as an atribute in the Wishlist class
     //Should wishlist be found by nam or by id?
     public Wishlist findWishlistByName(String name) {
-        String sql = "SELECT * FROM wishlists where name = ?";
+        String sql = "SELECT * FROM wishlists WHERE title = ?";
         List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name);
         if (wishlists.size() > 0) {
             Wishlist wishlist = wishlists.get(0);
@@ -65,23 +65,24 @@ public class WishlistRepository
 
     public Wish getWish(int id)
     {
-        String sql = "SELECT name, description, url FROM wish WHERE id = ?";
+        String sql = "SELECT WishId, name, description, url FROM wishes WHERE wishId = ?";
         List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, id);
         return result.isEmpty() ? null : result.get(0);
     }
 
     public List<Wish> getAllWishes(int wishlistId)
     {
-        String sql = "SELECT name, description, url FROM wish WHERE wishlist_id = ?";
-        return jdbcTemplate.query(sql, wishRowMapper);
+        String sql = "SELECT * FROM wishes WHERE wishlistId = ?";
+        return jdbcTemplate.query(sql, wishRowMapper, wishlistId);
     }
 
     private final RowMapper<Wish> wishRowMapper = (rs, RowNum) -> new Wish
             (
+                    rs.getInt("WishId"),
                     rs.getString("name"),
                     rs.getString("description"),
-                    rs.getString("url"),
-                    rs.getInt("id")
+                    rs.getString("url")
+
             );
 
     private final RowMapper<Wishlist> wishlistRowMapper = (rs, RowNum) -> new Wishlist
@@ -120,7 +121,7 @@ public class WishlistRepository
         }
 
         jdbcTemplate.update
-                ("UPDATE wish SET description=?, name=?, url=? WHERE id=?",
+                ("UPDATE wish SET description=?, name=?, url=? WHERE wishId=?",
                 wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
     }
 
