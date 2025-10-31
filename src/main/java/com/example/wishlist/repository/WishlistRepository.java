@@ -1,11 +1,13 @@
 package com.example.wishlist.repository;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 
@@ -28,7 +30,7 @@ public class WishlistRepository
     //add wishlist_id as an atribute in the Wishlist class
     //Should wishlist be found by nam or by id?
     public Wishlist findWishlistByName(String name) {
-        String sql = "SELECT * FROM wishlists where name = ?";
+        String sql = "SELECT * FROM wishlists WHERE title = ?";
         List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name);
         if (wishlists.size() > 0) {
             Wishlist wishlist = wishlists.get(0);
@@ -63,23 +65,24 @@ public class WishlistRepository
 
     public Wish getWish(int id)
     {
-        String sql = "SELECT name, description, url FROM wish WHERE id = ?";
+        String sql = "SELECT WishId, name, description, url FROM wishes WHERE wishId = ?";
         List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, id);
         return result.isEmpty() ? null : result.get(0);
     }
 
     public List<Wish> getAllWishes(int wishlistId)
     {
-        String sql = "SELECT name, description, url FROM wish WHERE wishlist_id = ?";
-        return jdbcTemplate.query(sql, wishRowMapper);
+        String sql = "SELECT * FROM wishes WHERE wishlistId = ?";
+        return jdbcTemplate.query(sql, wishRowMapper, wishlistId);
     }
 
     private final RowMapper<Wish> wishRowMapper = (rs, RowNum) -> new Wish
             (
+                    rs.getInt("WishId"),
                     rs.getString("name"),
                     rs.getString("description"),
-                    rs.getString("url"),
-                    rs.getInt("id")
+                    rs.getString("url")
+
             );
 
     private final RowMapper<Wishlist> wishlistRowMapper = (rs, RowNum) -> new Wishlist
@@ -87,6 +90,13 @@ public class WishlistRepository
                     rs.getInt("WishlistId"),
                     rs.getString("Title"),
                     rs.getInt("OwnerId")
+            );
+
+    private final RowMapper<Account> accountlistRowMapper = (rs, RowNum) -> new Account
+            (
+                    rs.getInt("AccountId"),
+                    rs.getString("UserName"),
+                    rs.getString("Password")
             );
 
     public int deleteWishById(int id)
@@ -111,7 +121,23 @@ public class WishlistRepository
         }
 
         jdbcTemplate.update
-                ("UPDATE wish SET description=?, name=?, url=? WHERE id=?",
+                ("UPDATE wish SET description=?, name=?, url=? WHERE wishId=?",
                 wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
+    }
+
+    public Account addAccount(Account account) {
+        String sql = "INSERT INTO Accounts (UserName, Password) VALUES (?, ?)";
+        jdbcTemplate.update(sql, account.getUsername(), account.getPassword());
+        return account;
+    }
+
+    public Account getAccount(Account account) {
+        String sql = "SELECT * FROM Accounts where UserName = ?";
+        List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername());
+        if (accounts.size() > 0) {
+            Account foundAccount = accounts.get(0);
+            return foundAccount;
+        }
+        return null;
     }
 }

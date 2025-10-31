@@ -1,8 +1,10 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,43 @@ public class WishlistController
         this.wishlistService = wishlistService;
     }
 
+    @GetMapping("/create/account")
+    public String createAccount(Model model) {
+        model.addAttribute("account", new Account());
+        return "create-account-form";
+    }
+
+    @PostMapping("/create/account")
+    public String createNewAccount(@ModelAttribute Account account, HttpSession session){
+        Account newAccount = wishlistService.addAccount(account);
+        session.setAttribute("account", newAccount);
+        return "redirect:/wishes/create-wishlist-form";
+    }
+
+    @GetMapping("/login")
+    public String logInForm(Model model){
+        model.addAttribute("account", new Account());
+        return "log-in-form";
+    }
+
+    @PostMapping("/login")
+    public String LogIn(@ModelAttribute Account account, HttpSession session){
+        Account foundAccount = wishlistService.logIn(account);
+        session.setAttribute("account", account);
+        session.setMaxInactiveInterval(10);
+        return "redirect:/wishes/my_wishlists";
+    }
+
     @GetMapping("/my_wishlists")
     public String viewAllWishlist(Model model) {
         model.addAttribute("wishlists", wishlistService.getAllWishlists());
-        return "view-wishlists";
+        return "view_wishlists";
     }
     @GetMapping()
-    public String createWishlist(Model model){
+    public String createWishlist(Model model, HttpSession session){
+        if(session.getAttribute("account") == null){
+            return "redirect:/wishes/my_wishlists";
+        }
         model.addAttribute("wishlist", new Wishlist());
         return "create-wishlist-form";
     }
@@ -36,7 +68,7 @@ public class WishlistController
     }
 
     //skal required være lig false?
-    @GetMapping("{title}")
+    @GetMapping("{title}/view")
     public String showWishlist(@PathVariable(required = false) String title, Model model) {
         Wishlist wishlist = wishlistService.getWishlist(title);
         if (wishlist != null) {
@@ -44,6 +76,16 @@ public class WishlistController
             return "view-wishlist";
         }
         return "redirect:/"; //create fail state
+    }
+
+    @GetMapping("/{title}/{name}/view")
+    public String showWish(@PathVariable(required = false) String name, Model model, @PathVariable String title){
+        Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
+        if(wish != null){
+            model.addAttribute("wish", wish);
+            return "view-wish";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/add")
