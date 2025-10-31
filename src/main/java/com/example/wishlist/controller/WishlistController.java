@@ -1,8 +1,10 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.WishlistService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,43 @@ public class WishlistController
         this.wishlistService = wishlistService;
     }
 
+    @GetMapping("/create/account")
+    public String createAccount(Model model) {
+        model.addAttribute("account", new Account());
+        return "create-account-form";
+    }
+
+    @PostMapping("/create/account")
+    public String createNewAccount(@ModelAttribute Account account, HttpSession session){
+        Account newAccount = wishlistService.addAccount(account);
+        session.setAttribute("account", newAccount);
+        return "redirect:/wishes/create-wishlist-form";
+    }
+
+    @GetMapping("/login")
+    public String logInForm(Model model){
+        model.addAttribute("account", new Account());
+        return "log-in-form";
+    }
+
+    @PostMapping("/login")
+    public String LogIn(@ModelAttribute Account account, HttpSession session){
+        Account foundAccount = wishlistService.logIn(account);
+        session.setAttribute("account", account);
+        session.setMaxInactiveInterval(10);
+        return "redirect:/wishes";
+    }
+
     @GetMapping("/my_wishlists")
     public String viewAllWishlist(Model model) {
         model.addAttribute("wishlists", wishlistService.getAllWishlists());
         return "view-wishlists";
     }
     @GetMapping()
-    public String createWishlist(Model model){
+    public String createWishlist(Model model, HttpSession session){
+        if(session.getAttribute("account") == null){
+            return "redirect:/";
+        }
         model.addAttribute("wishlist", new Wishlist());
         return "create-wishlist-form";
     }

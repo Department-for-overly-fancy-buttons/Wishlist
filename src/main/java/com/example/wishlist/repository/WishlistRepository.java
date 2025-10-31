@@ -1,11 +1,13 @@
 package com.example.wishlist.repository;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 
@@ -89,6 +91,13 @@ public class WishlistRepository
                     rs.getInt("OwnerId")
             );
 
+    private final RowMapper<Account> accountlistRowMapper = (rs, RowNum) -> new Account
+            (
+                    rs.getInt("AccountId"),
+                    rs.getString("UserName"),
+                    rs.getString("Password")
+            );
+
     public int deleteWishById(int id)
     {
         return jdbcTemplate.update("DELETE FROM wish WHERE wishId = ?", id);
@@ -113,5 +122,21 @@ public class WishlistRepository
         jdbcTemplate.update
                 ("UPDATE wish SET description=?, name=?, url=? WHERE id=?",
                 wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
+    }
+
+    public Account addAccount(Account account) {
+        String sql = "INSERT INTO Accounts (UserName, Password) VALUES (?, ?)";
+        jdbcTemplate.update(sql, account.getUsername(), account.getPassword());
+        return account;
+    }
+
+    public Account getAccount(Account account) {
+        String sql = "SELECT * FROM Accounts where UserName = ?";
+        List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername());
+        if (accounts.size() > 0) {
+            Account foundAccount = accounts.get(0);
+            return foundAccount;
+        }
+        return null;
     }
 }

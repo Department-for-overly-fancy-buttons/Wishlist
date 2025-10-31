@@ -1,5 +1,6 @@
 package com.example.wishlist.service;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.repository.WishlistRepository;
@@ -61,5 +62,13 @@ public class WishlistService
     public void updateWish(Wish wish)
     {
         wishlistRepository.updateWish(wish);
+    }
+
+    public Account addAccount(Account account) {
+        return wishlistRepository.addAccount(account);
+    }
+
+    public Account logIn(Account account) {
+        return wishlistRepository.getAccount(account);
     }
 }
