@@ -27,8 +27,8 @@ public class WishlistRepository
     }
 
     //add keymanager to extarct wishlist id
-    //add wishlist_id as an atribute in the Wishlist class
-    //Should wishlist be found by nam or by id?
+    //add wishlist_id as an attribute in the Wishlist class
+    //Should wishlist be found by name or by id?
     public Wishlist findWishlistByName(String name) {
         String sql = "SELECT * FROM wishlists WHERE title = ?";
         List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name);
@@ -37,6 +37,13 @@ public class WishlistRepository
             return wishlist;
         }
         return null;
+    }
+
+    public Wish getWishByName(String name)
+    {
+        String sql = "SELECT WishId, name, description, url FROM wishes WHERE name = ?";
+        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, name);
+        return result.isEmpty() ? null : result.get(0);
     }
 
     public Wish addWish(Wish wish)
@@ -55,7 +62,7 @@ public class WishlistRepository
         }
 
         jdbcTemplate.update(
-                "INSERT IGNORE INTO wish (name, description, url) VALUES (?,?,?)",
+                "INSERT IGNORE INTO wishes (name, description, url) VALUES (?,?,?)",
                 wish.getName(),
                 wish.getDescription(),
                 wish.getUrl());
@@ -121,7 +128,7 @@ public class WishlistRepository
         }
 
         jdbcTemplate.update
-                ("UPDATE wish SET description=?, name=?, url=? WHERE wishId=?",
+                ("UPDATE wishes SET description=?, name=?, url=? WHERE wishId=?",
                 wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
     }
 
