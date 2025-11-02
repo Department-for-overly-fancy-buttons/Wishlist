@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public class WishlistRepository
 {
+    //TODO: Både service of repository checker for tomt navn når man tilføjer nye ønsker addWish()
     private final JdbcTemplate jdbcTemplate;
 
     public WishlistRepository(JdbcTemplate jdbcTemplate)
