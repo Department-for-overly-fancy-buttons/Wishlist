@@ -3,6 +3,7 @@ package com.example.wishlist.controller;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.service.WishlistService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,7 +12,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,6 +36,8 @@ public class WishlistControllerTest
                 .andExpect(status().isOk())
                 .andExpect(view().name("view_wishlists"))
                 .andExpect(model().attributeExists("wishlists"));
+
+        verify(wishlistService).getAllWishlists();
     }
 
     @Test
@@ -52,10 +57,18 @@ public class WishlistControllerTest
 
         mockMvc.perform(post("/wishes/save")
                 .param("name", "NintendoTing")
-                .param("decription", "desc")
+                .param("description", "desc")
                 .param("url", "url"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/wishes"));
+
+        ArgumentCaptor<Wish> captor = ArgumentCaptor.forClass(Wish.class);
+        verify(wishlistService).addWish(captor.capture());
+        Wish capturedWish = captor.getValue();
+        //check id eller fjern id som instantsvariable
+        assertEquals("NintendoTing", capturedWish.getName());
+        assertEquals("desc", capturedWish.getDescription());
+        assertEquals("url", capturedWish.getUrl());
     }
 
     @Test
