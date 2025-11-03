@@ -15,7 +15,7 @@
         <label for="accountUsername">Enter a username</label>
         <input id="accountUsername" type="text" th:field="${account.username}" th:placeholder="username">
         <label for="accountPassword">Enter a password</label>
-        <input id="accountPassword" type="text" th:field="${account.password}" th:placeholder="password">
+        <input id="accountPassword" type="password" th:field="${account.password}" th:placeholder="password">
         <button class="formButton" type="submit">Log in</button>
         <a class="formButton" th:href="@{/}">Back</a>
     </form>

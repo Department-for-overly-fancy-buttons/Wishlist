@@ -69,8 +69,9 @@ public class WishlistController
     }
 
     @PostMapping("/create/wishlist")
-    public String createNewWishlist(){
-        return "redirect:/";
+    public String createNewWishlist(@ModelAttribute Wishlist wishlist){
+        Wishlist resultingWishlist = wishlistService.addWishlist(wishlist);
+        return (resultingWishlist != null) ? "redirect:/my_wishlists" : "redirect:/";
     }
 
     //skal required være lig false?
