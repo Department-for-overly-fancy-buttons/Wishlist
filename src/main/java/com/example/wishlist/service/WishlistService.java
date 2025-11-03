@@ -1,5 +1,6 @@
 package com.example.wishlist.service;
 
+import com.example.wishlist.exceptions.AccountNotFoundException;
 import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.model.Wishlist;
@@ -16,8 +17,8 @@ public class WishlistService {
         this.wishlistRepository = wishlistRepository;
     }
 
-    public List<Wishlist> getAllWishlists() {
-        return wishlistRepository.getAllWishlists();
+    public List<Wishlist> getAllMyWishlists(Account account) {
+        return wishlistRepository.getAllWishlists(account);
     }
 
     public Wishlist getWishlist(String name) {
@@ -64,8 +65,12 @@ public class WishlistService {
         return wishlistRepository.addAccount(account);
     }
 
-    public Account logIn(Account account) {
-        return wishlistRepository.getAccount(account);
+    public Account logIn(Account typedAccount) {
+        Account foundAccount = wishlistRepository.getAccount(typedAccount);
+        if(foundAccount == null || !foundAccount.getPassword().equals(typedAccount.getPassword())){
+            throw new AccountNotFoundException(typedAccount.getUsername(), typedAccount, foundAccount);
+        }
+        return foundAccount;
     }
 
     public Wishlist addWishlist(Wishlist wishlist) {

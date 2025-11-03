@@ -1,5 +1,6 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wish;
 import com.example.wishlist.service.WishlistService;
 import org.junit.jupiter.api.Test;
@@ -31,13 +32,13 @@ public class WishlistControllerTest
     @Test
     public void getAllWishlists_returnsListViewAndModel() throws Exception
     {
-        Mockito.when(wishlistService.getAllWishlists()).thenReturn(List.of());
+        Mockito.when(wishlistService.getAllMyWishlists(any(Account.class))).thenReturn(List.of());
         mockMvc.perform(get("/wishes/my_wishlists"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("view_wishlists"))
                 .andExpect(model().attributeExists("wishlists"));
 
-        verify(wishlistService).getAllWishlists();
+        verify(wishlistService).getAllMyWishlists(any(Account.class));
     }
 
     @Test

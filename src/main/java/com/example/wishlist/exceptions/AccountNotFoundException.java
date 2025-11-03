@@ -1,12 +1,13 @@
 package com.example.wishlist.exceptions;
 
+import com.example.wishlist.model.Account;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 
 public class AccountNotFoundException extends RuntimeException {
-    public AccountNotFoundException (String id) {
-        super("Account not found: id=" + id);
+    public AccountNotFoundException (String username, Account typedAccount, Account foundAccount) {
+        super("No account of the following username and password was found: username = " + username + "   " + typedAccount + "    " + foundAccount);
     }
 }

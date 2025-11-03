@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 
@@ -22,9 +21,9 @@ public class WishlistRepository
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Wishlist> getAllWishlists() {
-        String sql = "SELECT * FROM wishlists";
-        return jdbcTemplate.query(sql, wishlistRowMapper);
+    public List<Wishlist> getAllWishlists(Account account) {
+        String sql = "SELECT * FROM wishlists WHERE OwnerId = ?";
+        return jdbcTemplate.query(sql, wishlistRowMapper, account.getAccountId());
     }
 
     //add keymanager to extarct wishlist id
@@ -144,7 +143,7 @@ public class WishlistRepository
     }
 
     public Account getAccount(Account account) {
-        String sql = "SELECT * FROM Accounts where UserName = ?";
+        String sql = "SELECT * FROM Accounts WHERE UserName = ?";
         List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername());
         if (accounts.size() > 0) {
             Account foundAccount = accounts.get(0);
