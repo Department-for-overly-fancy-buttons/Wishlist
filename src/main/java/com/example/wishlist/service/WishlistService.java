@@ -71,8 +71,8 @@ public class WishlistService
 
     public Account logIn(Account typedAccount) {
         Account foundAccount = wishlistRepository.getAccount(typedAccount);
-        if(foundAccount == null){
-            throw new AccountNotFoundException(typedAccount.getUsername(), foundAccount);
+        if(foundAccount == null || !foundAccount.getPassword().equals(typedAccount.getPassword())){
+            throw new AccountNotFoundException(typedAccount.getUsername(), typedAccount, foundAccount);
         }
         return foundAccount;
     }

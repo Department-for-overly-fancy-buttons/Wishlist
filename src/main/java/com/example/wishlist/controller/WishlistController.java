@@ -31,7 +31,7 @@ public class WishlistController
     public String createNewAccount(@ModelAttribute Account account, HttpSession session){
         Account newAccount = wishlistService.addAccount(account);
         session.setAttribute("account", newAccount);
-        return "redirect:/wishes/create-wishlist-form";
+        return "redirect:/wishes/my_wishlists";
     }
 
     @GetMapping("/login")
@@ -43,7 +43,7 @@ public class WishlistController
     @PostMapping("/login")
     public String LogIn(@ModelAttribute Account account, HttpSession session){
         Account foundAccount = wishlistService.logIn(account);
-        session.setAttribute("account", account);
+        session.setAttribute("account", foundAccount);
         session.setMaxInactiveInterval(180);
         return "redirect:/wishes/my_wishlists";
     }
@@ -51,6 +51,7 @@ public class WishlistController
     @GetMapping("/my_wishlists")
     public String viewMyWishlist(Model model, HttpSession session) {
         Account account = (Account) session.getAttribute("account");
+        model.addAttribute("test", account.getAccountId());
         if(session.getAttribute("account") == null){
             return "redirect:/";
         }else {

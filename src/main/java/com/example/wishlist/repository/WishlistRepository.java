@@ -22,7 +22,7 @@ public class WishlistRepository
     }
 
     public List<Wishlist> getAllWishlists(Account account) {
-        String sql = "SELECT * FROM wishlists WHERE WishlistId = ?";
+        String sql = "SELECT * FROM wishlists WHERE OwnerId = ?";
         return jdbcTemplate.query(sql, wishlistRowMapper, account.getAccountId());
     }
 
@@ -139,8 +139,8 @@ public class WishlistRepository
     }
 
     public Account getAccount(Account account) {
-        String sql = "SELECT * FROM Accounts WHERE UserName = ? AND Password = ?";
-        List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername(), account.getPassword());
+        String sql = "SELECT * FROM Accounts WHERE UserName = ?";
+        List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername());
         if (accounts.size() > 0) {
             Account foundAccount = accounts.get(0);
             return foundAccount;
