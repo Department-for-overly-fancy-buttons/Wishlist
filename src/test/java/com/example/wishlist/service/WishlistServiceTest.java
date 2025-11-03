@@ -22,37 +22,44 @@ public class WishlistServiceTest
     private WishlistService service;
 
     // Sætter det op med navn som "metode der testes" efterfulgt af betingelsen og efterfulgt af det resultat vi ønsker. Har læst det skulle være den "rigtige" opsætning
+    // Laver opdeling efter AAA, Arrange, Act og Assert princippet
     @Test
     void addWish_success_returnsWish_andCallsRepo()
     {
-        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1);
-        when(repository.getWish(1)).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1));
+            // arranger her
+            Wish input = new Wish(0, "Billede", "En meget flot mark", "https://www.url.dk");
+            when(repository.getWishByName("Billede")).thenReturn(null);
+            when(repository.addWish(input)).thenReturn(input);
 
-        Wish result = service.addWish(input);
+            // act
+            Wish result = service.addWish(input);
 
-        assertThat(result).isNull();
-        verify(repository).getWish(1);
-        verify(repository).addWish(input);
+            // assert (samme med  andre tests)
+            assertThat(result).isNotNull();
+            verify(repository).getWishByName("Billede");
+            verify(repository).addWish(input);
     }
 
     @Test
-    void addWish_duplicate_returnsNull_andDoesNotCallAdd()
-    {
-        Wish input = new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1);
-        when(repository.getWish(1)).thenReturn(new Wish("Billede", "En meget flot mark", "https://www.url.dk", 1));
+    void addWish_duplicateName_returnsNull_andDoesNotCallAdd() {
+        Wish input = new Wish(0, "Billede", "desc", "url");
+        when(repository.getWishByName("Billede"))
+                .thenReturn(new Wish(1, "Billede", "desc", "url"));
 
         Wish result = service.addWish(input);
 
         assertThat(result).isNull();
-        verify(repository).getWish(1);
+        verify(repository).getWishByName("Billede");
         verify(repository, never()).addWish(any());
     }
 
     @Test
-    void addWish_invalidName_returnsNull_andNoRepoCalls()
-    {
-        Wish nullName = new Wish(null, "description", "url", 1);
-        Wish emptyName = new Wish("", "description", "url", 1);
+    void addWish_invalidName_returnsNull_andNoRepoCalls() {
+        Wish nullName = new Wish(0, null, "desc", "url");
+        Wish emptyName = new Wish(0, "", "desc", "url");
+
+        assertThat(service.addWish(nullName)).isNull();
+        assertThat(service.addWish(emptyName)).isNull();
 
         verifyNoInteractions(repository);
     }
