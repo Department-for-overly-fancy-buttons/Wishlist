@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 
 public class AccountNotFoundException extends RuntimeException {
-    public AccountNotFoundException (String username, Account acc) {
-        super("No account of the following username and password was found: username = " + username + "  " + acc);
+    public AccountNotFoundException (String username, Account typedAccount, Account foundAccount) {
+        super("No account of the following username and password was found: username = " + username + "   " + typedAccount + "    " + foundAccount);
     }
 }
