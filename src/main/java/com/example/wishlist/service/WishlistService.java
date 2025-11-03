@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WishlistService
-{
+public class WishlistService {
     private final WishlistRepository wishlistRepository;
 
-    public WishlistService(WishlistRepository wishlistRepository)
-    {
+    public WishlistService(WishlistRepository wishlistRepository) {
         this.wishlistRepository = wishlistRepository;
     }
 
@@ -29,38 +27,36 @@ public class WishlistService
         return wishlist;
     }
 
-    public Wish addWish(Wish wish)
-    {
+    public Wish addWish(Wish wish) {
         if (wish != null
-            && wish.getName() != null
-            && !wish.getName().isEmpty()
-            && wishlistRepository.getWishByName(wish.getName()) == null)
-        {
+                && wish.getName() != null
+                && !wish.getName().isEmpty()
+                && wishlistRepository.getWishByName(wish.getName()) == null) {
             return wishlistRepository.addWish(wish);
         }
 
         return null;
     }
 
-    public List<Wish> getAllWishes(int wishlistId)
-    {
+    public List<Wish> getAllWishes(int wishlistId) {
         return wishlistRepository.getAllWishes(wishlistId);
     }
 
-    public Wish getWish(int id)
-    {
+    public Wish getWish(int id) {
         return wishlistRepository.getWish(id);
     }
 
     /*public Wish getName(String name)*/
 
-    public boolean deleteWish(int id)
-    {
+    public boolean deleteWish(int id) {
         return wishlistRepository.deleteWishById(id) > 0;
     }
 
-    public void updateWish(Wish wish)
-    {
+    public boolean deleteWishlist(int id) {
+        return wishlistRepository.deleteWishlistById(id) > 0;
+    }
+
+    public void updateWish(Wish wish) {
         wishlistRepository.updateWish(wish);
     }
 
@@ -70,5 +66,9 @@ public class WishlistService
 
     public Account logIn(Account account) {
         return wishlistRepository.getAccount(account);
+    }
+
+    public Wishlist addWishlist(Wishlist wishlist) {
+        return wishlistRepository.addWishlist(wishlist);
     }
 }

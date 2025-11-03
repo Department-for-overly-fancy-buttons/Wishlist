@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1 class="textBox">Wishes:</h1>
+<div id="viewWishesBox">
 <table>
     <tr th:if="${wishlist.wishes.isEmpty()}">There are no wishes in this wishlist</tr>
     <tr th:if="${!wishlist.wishes.isEmpty()}">
@@ -26,5 +27,6 @@
 </table>
 
 <a class="linkToButton" th:href="@{/wishes}">Add new wishlist</a>
+</div>
 </body>
 </html>
