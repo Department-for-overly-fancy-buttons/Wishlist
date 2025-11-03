@@ -53,6 +53,7 @@ table, th, td {
     border: 1px solid var(--accent);
     border-collapse: collapse;
     padding: 5px;
+
 }
 
 th {
@@ -152,6 +153,7 @@ label{
 }
 
 .homepage{
+    display: grid;
     text-align: center;
     max-width: 400px;
     min-inline-size: 400px;
