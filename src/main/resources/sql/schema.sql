@@ -1,4 +1,3 @@
-
 DROP DATABASE IF EXISTS `wishlist_database_dept:ofb`;
 CREATE DATABASE `wishlist_database_dept:ofb`
   DEFAULT CHARACTER SET utf8mb4;
@@ -26,6 +25,7 @@ CREATE TABLE Wishes (
                         WishId INT NOT NULL AUTO_INCREMENT,
                         Name  VARCHAR(150) NOT NULL,
                         Description VARCHAR(500),
+                        Url VARCHAR(1000),
                         WishlistId INT NOT NULL,
                         PRIMARY KEY (WishId, WishlistID),
                         FOREIGN KEY (WishlistId) REFERENCES WishLists (WishlistId)
