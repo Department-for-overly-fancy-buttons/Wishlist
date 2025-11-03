@@ -1,38 +1,33 @@
-drop
-database if exists tourist_Guide;
-CREATE
-DATABASE IF NOT EXISTS tourist_Guide
-  CHARACTER SET utf8mb4;
 
-USE
-tourist_Guide;
+DROP DATABASE IF EXISTS `wishlist_database_dept:ofb`;
+CREATE DATABASE `wishlist_database_dept:ofb`
+  DEFAULT CHARACTER SET utf8mb4;
+USE `wishlist_database_dept:ofb`;
 
-create table tourist_attractions
-(
-    name        varchar(255)  not null,
-    description varchar(1000) not null,
-    city        varchar(255)  not null,
-    ticket_price_in_DKK double not null,
-    primary key (name)
+
+CREATE TABLE Accounts (
+                          AccountId    INT NOT NULL AUTO_INCREMENT,
+                          UserName VARCHAR(255) UNIQUE NOT NULL,
+                          Password VARCHAR(255) NOT NULL,
+                          PRIMARY KEY (AccountId)
 );
 
-create table tag
-(
-    name varchar(155) not null,
-    primary key (name)
+
+CREATE TABLE Wishlists (
+                           WishlistId         INT NOT NULL AUTO_INCREMENT,
+                           Title       VARCHAR(255) NOT NULL,
+                           OwnerId INT NOT NULL,
+                           PRIMARY KEY (WishlistId),
+                           FOREIGN KEY (OwnerId) REFERENCES Accounts (AccountId)
 );
 
-create table city
-(
-    name varchar(155) not null,
-    primary key (name)
-);
 
-create table tags
-(
-    attraction_name varchar(255) not null,
-    tag_name        varchar(155) not null,
-    primary key (attraction_name, tag_name),
-    foreign key (attraction_name) references tourist_attractions (name)
-        on delete cascade
+CREATE TABLE Wishes (
+                        WishId INT NOT NULL AUTO_INCREMENT,
+                        Name  VARCHAR(150) NOT NULL,
+                        Description VARCHAR(500),
+                        WishlistId INT NOT NULL,
+                        PRIMARY KEY (WishId, WishlistID),
+                        FOREIGN KEY (WishlistId) REFERENCES WishLists (WishlistId)
+                            ON DELETE CASCADE
 );
