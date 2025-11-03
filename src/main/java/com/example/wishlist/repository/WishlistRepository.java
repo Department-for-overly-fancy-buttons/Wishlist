@@ -112,6 +112,10 @@ public class WishlistRepository
         return jdbcTemplate.update("DELETE FROM wish WHERE wishId = ?", id);
     }
 
+    public int deleteWishlistById(int id){
+        return jdbcTemplate.update("DELETE FROM wishlists WHERE wishId = ?", id);
+    }
+
     public void updateWish(Wish updatedWish)
     {
         Wish wish = getWish(updatedWish.getId());
@@ -147,5 +151,19 @@ public class WishlistRepository
             return foundAccount;
         }
         return null;
+    }
+
+    public Wishlist addWishlist(Wishlist wishlist) {
+            if (wishlist.getOwnerId() == 0 || wishlist.getTitle().isEmpty())
+            {
+               return null;
+            }
+
+            jdbcTemplate.update(
+                    "INSERT IGNORE INTO wishlists (Title, OwnerId) VALUES (?,?)",
+                    wishlist.getTitle(),
+                    wishlist.getOwnerId());
+
+            return wishlist;
     }
 }
