@@ -34,7 +34,7 @@ public class WishlistService
         if (wish != null
             && wish.getName() != null
             && !wish.getName().isEmpty()
-            && wishlistRepository.getWish(wish.getId()) == null)
+            && wishlistRepository.getWishByName(wish.getName()) == null)
         {
             return wishlistRepository.addWish(wish);
         }
