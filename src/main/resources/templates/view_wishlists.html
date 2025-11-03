@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1 class="textBox">wishlists:</h1>
+<div id="wishlistsBox">
 <table>
     <tr th:if="${wishlists.isEmpty()}">There are no wishlists</tr>
     <tr th:if="${!wishlists.isEmpty()}">
@@ -16,11 +17,12 @@
     <tr th:each="wishlist: ${wishlists}">
         <td th:text="${wishlist.title}"></td>
         <td>
-            <a class="linkToButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Open</a>
+            <a class="wishlistButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Open</a>
         </td>
     </tr>
 </table>
 
-<a class="linkToButton" th:href="@{/wishes}">Add new wishlist</a>
+<a class="wishlistButton" th:href="@{/wishes}">Add new wishlist</a>
+    </div>
 </body>
 </html>

@@ -15,7 +15,7 @@
 body {
     margin: 0;
     padding: 0;
-    background: linear-gradient(90deg, deeppink,forestgreen,hotpink,aqua,deeppink);
+    background: linear-gradient(90deg, deeppink, forestgreen, hotpink, aqua, deeppink);
     background-size: 400%;
     animation: animate_79 50s linear infinite;
     color: var(--text);
@@ -33,7 +33,7 @@ nav {
     backdrop-filter: blur(8px);
     display: grid;
     grid-template-columns: 45% auto auto;
-    background: linear-gradient(90deg, pink,palegreen,lightpink,turquoise,pink);
+    background: linear-gradient(90deg, pink, palegreen, lightpink, turquoise, pink);
     background-size: 400%;
     animation: animate_79 50s linear infinite;
 }
@@ -50,14 +50,18 @@ footer {
 
 table, th, td {
     background-color: var(--box_bg);
-    border: 1px solid var(--accent);
+    border: 1px solid black;
     border-collapse: collapse;
     padding: 5px;
-
+    margin-bottom:12px;
 }
 
-th {
-    text-align: left;
+td {
+    height: 70px;
+}
+
+td {
+    text-align: center;
 }
 
 a {
@@ -97,7 +101,7 @@ form {
     font-size: 32px;
 }
 
-.formButton{
+.formButton {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -106,10 +110,18 @@ form {
     margin-bottom: 10px;
     min-width: 400px;
     background-color: white;
-    font-family:auto;
+    font-family: auto;
 }
 
-.formButton:hover{
+#wishlistsBox{
+    display: grid;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    font-size: 32px;
+}
+
+.formButton:hover {
     box-shadow: 0 0 50px 0 #ff00ff;
     transform: matrix3d(0.5,
     0,
@@ -130,7 +142,7 @@ form {
     transition: 5s;
 }
 
-.wishlistButton{
+.wishlistButton {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -144,7 +156,8 @@ input {
     margin-bottom: 10px;
     min-width: 400px;
 }
-label{
+
+label {
     font-size: 32px;
     display: block;
     margin-bottom: 10px;
@@ -152,7 +165,7 @@ label{
     min-width: 400px;
 }
 
-.homepage{
+.homepage {
     display: grid;
     text-align: center;
     max-width: 400px;
@@ -161,7 +174,7 @@ label{
     font-size: 32px;
 }
 
-#wishDescription{
+#wishDescription {
     height: 150px;
     font-size: 32px;
     margin-bottom: 10px;
