@@ -61,7 +61,16 @@ public class WishlistService {
         wishlistRepository.updateWish(wish);
     }
 
-    public Account addAccount(Account account) {
+    public Account addAccount(Account account)
+    {
+        if (account == null
+            || account.getUsername() == null
+            || account.getUsername().isBlank()
+            || account.getPassword() == null
+            || account.getPassword().isBlank())
+    {
+        return null;
+    }
         return wishlistRepository.addAccount(account);
     }
 
