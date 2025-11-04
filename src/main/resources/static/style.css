@@ -58,9 +58,6 @@ table, th, td {
 
 td {
     height: 70px;
-}
-
-td {
     text-align: center;
 }
 
@@ -109,6 +106,17 @@ form {
     font-size: 32px;
 }
 
+.wishlistButtonForm{
+    display:grid;
+    grid-gap: 0;
+    margin:auto;
+    padding: 0;
+    border-radius: 0;
+    text-align: center;
+    min-inline-size: 100px;
+    font-size: 16px;
+}
+
 .formButton {
     padding: 10px 15px;
     border: none;
@@ -118,7 +126,6 @@ form {
     margin-bottom: 10px;
     min-width: 400px;
     background-color: white;
-    font-family: auto;
 }
 
 #wishlistsBox {
@@ -152,11 +159,17 @@ form {
 
 .wishlistButton {
     padding: 10px 15px;
-    border: none;
+    border: 0px;
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 10px;
     background-color: white;
+    font-family:auto;
+}
+
+button.wishlistButton {
+    margin-bottom:0;
+    padding: 10.8px 15px;
 }
 
 input {
