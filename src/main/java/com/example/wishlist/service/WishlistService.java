@@ -72,7 +72,7 @@ public class WishlistService {
     }
 
     public Account addAccount(Account account) {
-        if(!account.getPassword().isBlank()) {
+        if(!account.getPassword().isBlank() && account.getUsername().isBlank()) {
             try {
                 return wishlistRepository.addAccount(account);
             } catch (DataIntegrityViolationException ex) { //DataIntegrityViolationException is thrown when there is an attempt to violate the database schema (in this case the UNIQUE in username)

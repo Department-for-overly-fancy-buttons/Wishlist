@@ -7,7 +7,9 @@
     <link th:href="@{/style.css}" rel="styleSheet"/>
 </head>
 <body>
-<h1 class="textBox">Wish:</h1>
+<div th:replace="~{fragments/header :: header}"></div>
+<div id="viewWishBox">
+    <h1 class="textBox">Wish</h1>
 <table>
     <tr>
         <th>Name</th>
@@ -17,15 +19,15 @@
     <tr>
         <td th:text="${wish.name}"></td>
         <td th:text="${wish.description}"></td>
-        <td th:text="${wish.url}"></td>
+        <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
     </tr>
 </table>
 <form action="#"  th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
-    <button class="linkToButton" type="submit">edit wish</button>
+    <button class="wishlistButton" type="submit">edit wish</button>
 </form>
 <form action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
-    <button class="linkToButton" type="submit">delete wish</button>
+    <button class="wishlistButton" type="submit">delete wish</button>
 </form>
-<a class="linkToButton" th:href="@{${redirectionUrl}}">back to wishlist</a>
+<a class="wishlistButton" th:href="@{${redirectionUrl}}">back to wishlist</a>
 </body>
 </html>

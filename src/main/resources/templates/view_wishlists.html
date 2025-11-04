@@ -7,9 +7,10 @@
     <link th:href="@{/style.css}" rel="styleSheet"/>
 </head>
 <body>
-<h1 class="textBox">wishlists:</h1>
+<div th:replace="~{fragments/header :: header}"></div>
 <div id="wishlistsBox">
-<table>
+    <h1 id="wishlistsTextBox" class="textBox">Wishlists</h1>
+    <table>
     <tr th:if="${wishlists.isEmpty()}">There are no wishlists</tr>
     <tr th:if="${!wishlists.isEmpty()}">
         <th>Navn</th>
@@ -21,7 +22,6 @@
         </td>
     </tr>
 </table>
-
 <a class="wishlistButton" th:href="@{/wishes}">Add new wishlist</a>
     </div>
 </body>
