@@ -22,8 +22,12 @@
         <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
     </tr>
 </table>
-
-<a class="wishlistButton" th:href="@{/wishes}">back</a>
-</div>
+<form action="#"  th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
+    <button class="wishlistButton" type="submit">edit wish</button>
+</form>
+<form action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
+    <button class="wishlistButton" type="submit">delete wish</button>
+</form>
+<a class="wishlistButton" th:href="@{${redirectionUrl}}">back to wishlist</a>
 </body>
 </html>
