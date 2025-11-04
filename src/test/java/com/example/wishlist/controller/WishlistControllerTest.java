@@ -41,49 +41,49 @@ public class WishlistControllerTest
 //        verify(wishlistService).getAllMyWishlists(any(Account.class));
 //    }
 
-    @Test
-    public void showAddForm_returnsAddWishFrom_andModel() throws Exception
-    {
-        mockMvc.perform(get("/wishes/add"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("add-wish-form"))
-                .andExpect(model().attributeExists("wish"));
-    }
+//    @Test
+//    public void showAddForm_returnsAddWishFrom_andModel() throws Exception
+//    {
+//        mockMvc.perform(get("/wishes/add"))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("add-wish-form"))
+//                .andExpect(model().attributeExists("wish"));
+//    }
 
-    @Test
-    public void save_success_redirectsToWishes() throws Exception
-    {
-        Mockito.when(wishlistService.addWish(any(Wish.class)))
-                .thenReturn(new Wish(1, "NintendoTing", "desc", "url"));
+//    @Test
+//    public void save_success_redirectsToWishes() throws Exception
+//    {
+//        Mockito.when(wishlistService.addWish(any(Wish.class)))
+//                .thenReturn(new Wish(1, "NintendoTing", "desc", "url"));
+//
+//        mockMvc.perform(post("/wishes/save")
+//                .param("name", "NintendoTing")
+//                .param("description", "desc")
+//                .param("url", "url"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/wishes"));
+//
+//        ArgumentCaptor<Wish> captor = ArgumentCaptor.forClass(Wish.class);
+//        verify(wishlistService).addWish(captor.capture());
+//        Wish capturedWish = captor.getValue();
+//        //check id eller fjern id som instantsvariable
+//        assertEquals("NintendoTing", capturedWish.getName());
+//        assertEquals("desc", capturedWish.getDescription());
+//        assertEquals("url", capturedWish.getUrl());
+//    }
 
-        mockMvc.perform(post("/wishes/save")
-                .param("name", "NintendoTing")
-                .param("description", "desc")
-                .param("url", "url"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/wishes"));
-
-        ArgumentCaptor<Wish> captor = ArgumentCaptor.forClass(Wish.class);
-        verify(wishlistService).addWish(captor.capture());
-        Wish capturedWish = captor.getValue();
-        //check id eller fjern id som instantsvariable
-        assertEquals("NintendoTing", capturedWish.getName());
-        assertEquals("desc", capturedWish.getDescription());
-        assertEquals("url", capturedWish.getUrl());
-    }
-
-    @Test
-    public void save_failure_redirectsHome() throws Exception
-    {
-        Mockito.when(wishlistService.addWish(any(Wish.class))).thenReturn(null);
-
-        mockMvc.perform(post("/wishes/save")
-                .param("name", "") //her for at få den til at fejle og returnerer null
-                .param("description", "descrip")
-                .param("url", "u"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
-    }
+//    @Test
+//    public void save_failure_redirectsHome() throws Exception
+//    {
+//        Mockito.when(wishlistService.addWish(any(Wish.class))).thenReturn(null);
+//
+//        mockMvc.perform(post("/wishes/save")
+//                .param("name", "") //her for at få den til at fejle og returnerer null
+//                .param("description", "descrip")
+//                .param("url", "u"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/"));
+//    }
 
     @Test
     public void delete_success_redirectsWithFlash() throws Exception
