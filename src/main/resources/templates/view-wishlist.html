@@ -7,8 +7,10 @@
     <link th:href="@{/style.css}" rel="styleSheet"/>
 </head>
 <body>
-<h1 class="textBox">Wishes:</h1>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div id="viewWishesBox">
+    <h1 class="textBox">Wishes</h1>
 <table>
     <tr th:if="${wishlist.wishes.isEmpty()}">There are no wishes in this wishlist</tr>
     <tr th:if="${!wishlist.wishes.isEmpty()}">
@@ -19,13 +21,14 @@
     <tr th:each="wish: ${wishlist.wishes}">
         <td th:text="${wish.name}"></td>
         <td th:text="${wish.description}"></td>
-        <td th:text="${wish.url}"></td>
+        <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
         <td>
-            <a class="linkToButton" th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>
+            <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>
         </td>
     </tr>
 </table>
 
-<a class="linkToButton" th:href="@{/wishes/add}">Add new wish</a>
+<a class="wishlistButton" id="addNewWish" th:href="@{/wishes/add}">Add new wish</a>
+</div>
 </body>
 </html>
