@@ -6,9 +6,7 @@
     <link rel="styleSheet" th:href="@{/style.css}"/>
 </head>
 <body>
-<nav>
-    <div><a href="/" title="Gå tilbage til forsiden">Wishlist</a></div>
-</nav>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="homepage">
 <a class="wishlistButton" th:href="@{/wishes/create/account}">Create a new account</a>
