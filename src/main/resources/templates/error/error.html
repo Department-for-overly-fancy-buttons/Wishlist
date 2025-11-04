@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${status + ' - ' + error}">Error</title>
+    <link rel="styleSheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div class="textBox">
+    <h1 th:text="${status + ' – ' + error}">Error</h1>
+    <p th:text="${message}">Something went wrong.</p>
+    <a th:href="@{${redirectionUrl}}">Back to front page</a>
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ public class Wish
     private String name;
     private String description;
     private String url;
+    private int wishlistId;
 
     public Wish()
     {
@@ -20,6 +21,7 @@ public class Wish
         this.name = name;
         this.description = description;
         this.url = url;
+        this.wishlistId = 0;
     }
 
     public int getId()
@@ -62,4 +64,11 @@ public class Wish
         this.url = url;
     }
 
+    public int getWishlistId() {
+        return wishlistId;
+    }
+
+    public void setWishlistId(int wishlistId) {
+        this.wishlistId = wishlistId;
+    }
 }
