@@ -106,6 +106,7 @@ public class WishlistController
             Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
             if (wish != null) {
                 model.addAttribute("wish", wish);
+                model.addAttribute("wishlist", session.getAttribute("wishlist"));
                 model.addAttribute("redirectionUrl", "/"+ title + "/view");
                 return "view-wish";
             }
@@ -152,12 +153,11 @@ public class WishlistController
         return "redirect:/";
     }
 
-    @PostMapping("{name}/delete")
-    public String deleteWish(@PathVariable String name, RedirectAttributes redirectAttributes)
+    @PostMapping("{title}/{name}/delete")
+    public String deleteWish(@PathVariable String name, RedirectAttributes redirectAttributes, @PathVariable String title)
     {
-        /*
-        boolean deleted = wishlistService.deleteWish(wish.getId());
-        wishlistService.deleteWish(wish.getId());
+        boolean deleted = wishlistService.deleteWish(name, title);
+        //wishlistService.deleteWish(wish.getId());
         if (deleted)
         {
             redirectAttributes.addFlashAttribute("message", "Wish deleted");
@@ -167,8 +167,8 @@ public class WishlistController
         {
             redirectAttributes.addFlashAttribute("message", "Wish did not exist and could therefore not be deleted");
             redirectAttributes.addFlashAttribute("messageType", "error");
-        }*/
-        return "redirect:/wishes";
+        }
+        return "redirect:/wishes/" + title + "/view";
     }
 
     @PostMapping("/update")
