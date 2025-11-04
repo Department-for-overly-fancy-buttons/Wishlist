@@ -103,9 +103,9 @@ public class WishlistRepository
                     rs.getString("Password")
             );
 
-    public int deleteWishById(int id)
+    public int deleteWishById(String wishName, int wishlistId)
     {
-        return jdbcTemplate.update("DELETE FROM wish WHERE wishId = ?", id);
+        return jdbcTemplate.update("DELETE FROM wishes WHERE Name = ? AND WishlistId = ?", wishName, wishlistId);
     }
 
     public int deleteWishlistById(int id){
