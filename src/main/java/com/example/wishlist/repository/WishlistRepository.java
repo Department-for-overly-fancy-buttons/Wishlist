@@ -21,9 +21,9 @@ public class WishlistRepository
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Wishlist> getAllWishlists(Account account) {
+    public List<Wishlist> getAllWishlists(int accountId) {
         String sql = "SELECT * FROM wishlists WHERE OwnerId = ?";
-        return jdbcTemplate.query(sql, wishlistRowMapper, account.getAccountId());
+        return jdbcTemplate.query(sql, wishlistRowMapper, accountId);
     }
 
     //add keymanager to extarct wishlist id
@@ -52,20 +52,17 @@ public class WishlistRepository
         {
             wish.setDescription("Ingen ekstra information om ønsket");
         }
-        if (wish.getName() == null)
-        {
-            wish.setName("Intet navn til ønsket endnu");
-        }
         if (wish.getUrl() == null)
         {
             wish.setUrl("Der er desværre ingen link til dette ønske");
         }
 
         jdbcTemplate.update(
-                "INSERT IGNORE INTO wishes (name, description, url) VALUES (?,?,?)",
+                "INSERT IGNORE INTO wishes (name, description, url, wishlistId) VALUES (?,?,?,?)",
                 wish.getName(),
                 wish.getDescription(),
-                wish.getUrl());
+                wish.getUrl(),
+                wish.getWishlistId());
 
         return wish;
     }

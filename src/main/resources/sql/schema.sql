@@ -18,6 +18,7 @@ CREATE TABLE Wishlists (
                            OwnerId INT NOT NULL,
                            PRIMARY KEY (WishlistId),
                            FOREIGN KEY (OwnerId) REFERENCES Accounts (AccountId)
+                               ON DELETE CASCADE
 );
 
 

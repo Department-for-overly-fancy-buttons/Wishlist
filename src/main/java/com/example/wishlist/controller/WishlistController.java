@@ -30,14 +30,21 @@ public class WishlistController
     @PostMapping("/create/account")
     public String createNewAccount(@ModelAttribute Account account, HttpSession session){
         Account newAccount = wishlistService.addAccount(account);
-        session.setAttribute("account", newAccount);
-        return "redirect:/wishes/my_wishlists";
+        if(newAccount != null) {
+            session.setAttribute("account", newAccount);
+            return "redirect:/wishes/my_wishlists";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/login")
-    public String logInForm(Model model){
-        model.addAttribute("account", new Account());
-        return "log-in-form";
+    public String logInForm(Model model, HttpSession session){
+        if(session.getAttribute("account") == null) {
+            model.addAttribute("account", new Account());
+            return "log-in-form";
+        }else{
+            return "redirect:/wishes/my_wishlists";
+        }
     }
 
     @PostMapping("/login")
@@ -51,11 +58,10 @@ public class WishlistController
     @GetMapping("/my_wishlists")
     public String viewMyWishlist(Model model, HttpSession session) {
         Account account = (Account) session.getAttribute("account");
-        model.addAttribute("test", account.getAccountId());
         if(session.getAttribute("account") == null){
             return "redirect:/";
         }else {
-            model.addAttribute("wishlists", wishlistService.getAllMyWishlists(account));
+            model.addAttribute("wishlists", wishlistService.getAllMyWishlists(account.getAccountId()));
             return "view_wishlists";
         }
     }
@@ -69,42 +75,58 @@ public class WishlistController
     }
 
     @PostMapping("/create/wishlist")
-    public String createNewWishlist(@ModelAttribute Wishlist wishlist){
+    public String createNewWishlist(@ModelAttribute Wishlist wishlist, HttpSession session){
+        Account account = (Account) session.getAttribute("account");
+        if(account == null){
+            return "redirect:/";
+        }
+        wishlist.setOwnerId(account.getAccountId());
         Wishlist resultingWishlist = wishlistService.addWishlist(wishlist);
         return (resultingWishlist != null) ? "redirect:/my_wishlists" : "redirect:/";
     }
 
     //skal required være lig false?
     @GetMapping("{title}/view")
-    public String showWishlist(@PathVariable(required = false) String title, Model model) {
-        Wishlist wishlist = wishlistService.getWishlist(title);
-        if (wishlist != null) {
-            model.addAttribute("wishlist", wishlist);
-            return "view-wishlist";
+    public String showWishlist(@PathVariable(required = false) String title, Model model, HttpSession session) {
+        //create fail state
+        if (session.getAttribute("account") != null) {
+            Wishlist wishlist = wishlistService.getWishlist(title);
+            if (wishlist != null) {
+                model.addAttribute("wishlist", wishlist);
+                session.setAttribute("wishlistId", wishlist.getId());
+                return "view-wishlist";
+            }
         }
-        return "redirect:/"; //create fail state
+        return "redirect:/";
     }
 
     @GetMapping("/{title}/{name}/view")
-    public String showWish(@PathVariable(required = false) String name, Model model, @PathVariable String title){
-        Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
-        if(wish != null){
-            model.addAttribute("wish", wish);
-            return "view-wish";
+    public String showWish(@PathVariable(required = false) String name, Model model, @PathVariable String title, HttpSession session){
+        if (session.getAttribute("account") != null) {
+            Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
+            if (wish != null) {
+                model.addAttribute("wish", wish);
+                model.addAttribute("redirectionUrl", "/"+ title + "/view");
+                return "view-wish";
+            }
         }
         return "redirect:/";
     }
 
     @GetMapping("/add")
-    public String showAddWishForm(Model model)
+    public String showAddWishForm(Model model, HttpSession session)
     {
-        model.addAttribute("wish", new Wish());
-        return "add-wish-form";
+        if (session.getAttribute("account") != null) {
+            model.addAttribute("wish", new Wish());
+            return "add-wish-form";
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/save")
-    public String addWish(@ModelAttribute Wish wish)
+    public String addWish(@ModelAttribute Wish wish, Model model, HttpSession session)
     {
+        wish.setWishlistId((Integer) session.getAttribute("wishlistId"));
         Wish resultingWish = wishlistService.addWish(wish);
         return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
     }
@@ -116,24 +138,26 @@ public class WishlistController
 //        return "wish-list";
 //    }
 
-    @GetMapping("/{id}/edit")
-    public String showUpdateWishForm(@PathVariable int id, Model model)
+    @GetMapping("/{name}/edit")
+    public String showUpdateWishForm(@PathVariable int name, Model model, HttpSession session)
     {
-        Wish wish = wishlistService.getWish(id);
-        if (wish != null)
-        {
-            model.addAttribute("wish", wish);
+        if (session.getAttribute("account") != null) {
+            Wish wish = wishlistService.getWish(name);
+            if (wish != null) {
+                model.addAttribute("wish", wish);
 
-            return "update-wish-form";
+                return "update-wish-form";
+            }
         }
         return "redirect:/";
     }
 
-    @PostMapping("{id}/delete")
-    public String deleteWish(@PathVariable int id, RedirectAttributes redirectAttributes)
+    @PostMapping("{name}/delete")
+    public String deleteWish(@PathVariable String name, RedirectAttributes redirectAttributes)
     {
-        boolean deleted = wishlistService.deleteWish(id);
-        wishlistService.deleteWish(id);
+        /*
+        boolean deleted = wishlistService.deleteWish(wish.getId());
+        wishlistService.deleteWish(wish.getId());
         if (deleted)
         {
             redirectAttributes.addFlashAttribute("message", "Wish deleted");
@@ -143,7 +167,7 @@ public class WishlistController
         {
             redirectAttributes.addFlashAttribute("message", "Wish did not exist and could therefore not be deleted");
             redirectAttributes.addFlashAttribute("messageType", "error");
-        }
+        }*/
         return "redirect:/wishes";
     }
 
