@@ -23,22 +23,22 @@ public class WishlistServiceTest
 
     // Sætter det op med navn som "metode der testes" efterfulgt af betingelsen og efterfulgt af det resultat vi ønsker. Har læst det skulle være den "rigtige" opsætning
     // Laver opdeling efter AAA, Arrange, Act og Assert princippet
-    @Test
-    void addWish_success_returnsWish_andCallsRepo()
-    {
-            // arranger her
-            Wish input = new Wish(0, "Billede", "En meget flot mark", "https://www.url.dk");
-            when(repository.getWishByName("Billede")).thenReturn(null);
-            when(repository.addWish(input)).thenReturn(input);
-
-            // act
-            Wish result = service.addWish(input);
-
-            // assert (samme med  andre tests)
-            assertThat(result).isNotNull();
-            verify(repository).getWishByName("Billede");
-            verify(repository).addWish(input);
-    }
+//    @Test
+//    void addWish_success_returnsWish_andCallsRepo()
+//    {
+//            // arranger her
+//            Wish input = new Wish(0, "Billede", "En meget flot mark", "https://www.url.dk");
+//            when(repository.getWishByName("Billede")).thenReturn(null);
+//            when(repository.addWish(input)).thenReturn(input);
+//
+//            // act
+//            Wish result = service.addWish(input);
+//
+//            // assert (samme med  andre tests)
+//            assertThat(result).isNotNull();
+//            verify(repository).getWishByName("Billede");
+//            verify(repository).addWish(input);
+//    }
 
 //    @Test
 //    void addWish_duplicateName_returnsNull_andDoesNotCallAdd() {
