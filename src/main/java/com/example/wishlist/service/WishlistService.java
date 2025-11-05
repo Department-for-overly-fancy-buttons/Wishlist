@@ -30,7 +30,6 @@ public class WishlistService {
     public Wishlist getWishlist(String title, int ownerId) {
         try {
             Wishlist wishlist = wishlistRepository.findWishlistByName(title, ownerId);
-            System.out.println(title + " " + ownerId);
             if (wishlist == null) {
                 throw new WishlistNotFoundException("A wishlist of the chosen name does not exist");
             }
@@ -60,9 +59,7 @@ public class WishlistService {
     }
 
     public Wish getWish(String wishName, int wishlistId) {
-        //Throw WishNotFOundException
         return wishlistRepository.getWish(wishName, wishlistId);
-
     }
 
     public boolean deleteWish(String wishName, String wishlistTitle, Account account) {
@@ -88,7 +85,7 @@ public class WishlistService {
         }
         Wish deprecatedWish = getWish(deprecatedName, wishlistId);
         try{
-        wishlistRepository.updateWish(updatedWish, deprecatedWish, wishlistId);
+        wishlistRepository.updateWish(updatedWish, deprecatedWish);
         }catch (DataAccessException dataAccessException) {
             throw new DatabaseOperationException("A fatal error has occurred while attempting to update your wish", dataAccessException);
         }

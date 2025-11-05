@@ -13,7 +13,6 @@ import java.util.List;
 @Repository
 public class WishlistRepository
 {
-    //TODO: Både service of repository checker for tomt navn når man tilføjer nye ønsker addWish()
     private final JdbcTemplate jdbcTemplate;
 
     public WishlistRepository(JdbcTemplate jdbcTemplate)
@@ -29,19 +28,10 @@ public class WishlistRepository
     public Wishlist findWishlistByName(String name, int ownerId) {
         String sql = "SELECT * FROM wishlists WHERE title = ? AND OwnerId = ?";
         List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name, ownerId);
-        if (wishlists.size() > 0) {
-            Wishlist wishlist = wishlists.get(0);
-            return wishlist;
+        if (!wishlists.isEmpty()) {
+            return wishlists.get(0);
         }
         return null;
-    }
-
-    //Make this method redundant
-    public Wish getWishByName(String name)
-    {
-        String sql = "SELECT WishId, name, description, url FROM wishes WHERE name = ?";
-        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, name);
-        return result.isEmpty() ? null : result.get(0);
     }
 
     public Wish addWish(Wish wish)
@@ -110,7 +100,7 @@ public class WishlistRepository
         return jdbcTemplate.update("DELETE FROM wishlists WHERE wishId = ?", id);
     }
 
-    public void updateWish(Wish updatedWish, Wish deprecatedWish, int wishlistId)
+    public void updateWish(Wish updatedWish, Wish deprecatedWish)
     {
 
         if (updatedWish.getDescription() != null)
@@ -140,9 +130,8 @@ public class WishlistRepository
     public Account getAccount(Account account) {
         String sql = "SELECT * FROM Accounts WHERE UserName = ?";
         List<Account> accounts = jdbcTemplate.query(sql, accountlistRowMapper,account.getUsername());
-        if (accounts.size() > 0) {
-            Account foundAccount = accounts.get(0);
-            return foundAccount;
+        if (!accounts.isEmpty()) {
+            return accounts.get(0);
         }
         return null;
     }
