@@ -108,7 +108,7 @@ public class WishlistController
             if (wish != null) {
                 model.addAttribute("wish", wish);
                 model.addAttribute("wishlist", session.getAttribute("wishlist"));
-                model.addAttribute("redirectionUrl", "/"+ title + "/view");
+                model.addAttribute("redirectionUrl", title + "/view");
                 session.setAttribute("wish", wish);
                 return "view-wish";
             }
@@ -116,11 +116,12 @@ public class WishlistController
         return "redirect:/";
     }
 
-    @GetMapping("/add")
-    public String showAddWishForm(Model model, HttpSession session)
+    @GetMapping("/{title}/add")
+    public String showAddWishForm(Model model, HttpSession session,@PathVariable String title)
     {
         if (session.getAttribute("account") != null) {
             model.addAttribute("wish", new Wish());
+            model.addAttribute("redirectionUrl", title + "/view");
             return "add-wish-form";
         }
         return "redirect:/";
@@ -131,7 +132,7 @@ public class WishlistController
     {
         wish.setWishlistId((Integer) session.getAttribute("wishlistId"));
         Wish resultingWish = wishlistService.addWish(wish);
-        return (resultingWish != null) ? "redirect:/wishes" : "redirect:/";
+        return (resultingWish != null) ? "redirect:/wishes/my_wishlists" : "redirect:/";
     }
 
 //    @GetMapping("/")

@@ -37,6 +37,7 @@
 </table>
 
 <a class="wishlistButton" id="addNewWish" th:href="@{/wishes/add}">Add new wish</a>
+    <a class="wishlistButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Back to wishlists</a>
 </div>
 </body>
 </html>
