@@ -39,6 +39,7 @@ public class WishlistRepository
         return null;
     }
 
+    //Make this method redundant
     public Wish getWishByName(String name)
     {
         String sql = "SELECT WishId, name, description, url FROM wishes WHERE name = ?";
@@ -67,10 +68,10 @@ public class WishlistRepository
         return wish;
     }
 
-    public Wish getWish(int id)
+    public Wish getWish(String wishName, int wishlistId)
     {
-        String sql = "SELECT WishId, name, description, url FROM wishes WHERE wishId = ?";
-        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, id);
+        String sql = "SELECT * FROM wishes WHERE Name = ? AND WishlistId = ?";
+        List<Wish> result = jdbcTemplate.query(sql, wishRowMapper, wishName, wishlistId);
         return result.isEmpty() ? null : result.get(0);
     }
 
@@ -112,31 +113,31 @@ public class WishlistRepository
         return jdbcTemplate.update("DELETE FROM wishlists WHERE wishId = ?", id);
     }
 
-    public void updateWish(Wish updatedWish)
+    public void updateWish(Wish updatedWish, Wish deprecatedWish, int wishlistId)
     {
-        Wish wish = getWish(updatedWish.getId());
+
         if (updatedWish.getDescription() != null)
         {
-            wish.setDescription(updatedWish.getDescription());
+            deprecatedWish.setDescription(updatedWish.getDescription());
         }
         if (updatedWish.getUrl() != null)
         {
-            wish.setUrl(updatedWish.getUrl());
+            deprecatedWish.setUrl(updatedWish.getUrl());
         }
         if (updatedWish.getName() != null)
         {
-            wish.setName(updatedWish.getName());
+            deprecatedWish.setName(updatedWish.getName());
         }
 
         jdbcTemplate.update
                 ("UPDATE wishes SET description=?, name=?, url=? WHERE wishId=?",
-                wish.getDescription(), wish.getUrl(), wish.getName(), wish.getId());
+                        deprecatedWish.getDescription(), deprecatedWish.getName(), deprecatedWish.getUrl(), deprecatedWish.getId());
     }
 
     public Account addAccount(Account account) {
         String sql = "INSERT INTO Accounts (UserName, Password) VALUES (?, ?)";
         jdbcTemplate.update(sql, account.getUsername(), account.getPassword());
-        return account;
+        return getAccount(account);
     }
 
     public Account getAccount(Account account) {

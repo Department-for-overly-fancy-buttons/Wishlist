@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -18,22 +19,13 @@
         <tr>
             <td th:text="${wish.name}"></td>
             <td th:text="${wish.description}"></td>
-            <td><a class="wishlistButton" th:href="${wish.url}">Link</a></td>
-            <td>
-                <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}(name=${wish.name})/edit}"
-                      method="post">
-                    <button class="wishlistButton" type="submit">Edit wish</button>
-                </form>
-            </td>
-            <td>
-                <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}"
-                      method="post">
-                    <button class="wishlistButton" type="submit">Delete wish</button>
-                </form>
-            </td>
+            <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
         </tr>
     </table>
-    <a class="wishlistButton" th:href="@{/wishes/{back}(back=${redirectionUrl})}">Back to wishlist</a>
-</div>
+    <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/edit(title=${wishlist.title}, name=${wish.name})}">Edit wish</a>
+    <form action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
+        <button class="wishlistButton" type="submit">Delete wish</button>
+    </form>
+    <a class="wishlistButton" th:href="@{${redirectionUrl}}">Back to wishlist</a>
 </body>
 </html>
