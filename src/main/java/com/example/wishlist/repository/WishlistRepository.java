@@ -26,12 +26,9 @@ public class WishlistRepository
         return jdbcTemplate.query(sql, wishlistRowMapper, accountId);
     }
 
-    //add keymanager to extarct wishlist id
-    //add wishlist_id as an attribute in the Wishlist class
-    //Should wishlist be found by name or by id?
-    public Wishlist findWishlistByName(String name) {
-        String sql = "SELECT * FROM wishlists WHERE title = ?";
-        List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name);
+    public Wishlist findWishlistByName(String name, int ownerId) {
+        String sql = "SELECT * FROM wishlists WHERE title = ? AND OwnerId = ?";
+        List<Wishlist> wishlists = jdbcTemplate.query(sql, wishlistRowMapper,name, ownerId);
         if (wishlists.size() > 0) {
             Wishlist wishlist = wishlists.get(0);
             return wishlist;
