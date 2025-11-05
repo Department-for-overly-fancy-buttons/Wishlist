@@ -32,6 +32,7 @@ public class WishlistController
         Account newAccount = wishlistService.addAccount(account);
         if(newAccount != null) {
             session.setAttribute("account", newAccount);
+            session.setMaxInactiveInterval(180);
             return "redirect:/wishes/my_wishlists";
         }
         return "redirect:/";
@@ -82,7 +83,7 @@ public class WishlistController
         }
         wishlist.setOwnerId(account.getAccountId());
         Wishlist resultingWishlist = wishlistService.addWishlist(wishlist);
-        return (resultingWishlist != null) ? "redirect:/my_wishlists" : "redirect:/";
+        return (resultingWishlist != null) ? "redirect:/wishes/my_wishlists" : "redirect:/";
     }
 
     //skal required være lig false?
@@ -103,11 +104,12 @@ public class WishlistController
     @GetMapping("/{title}/{name}/view")
     public String showWish(@PathVariable(required = false) String name, Model model, @PathVariable String title, HttpSession session){
         if (session.getAttribute("account") != null) {
-            Wish wish = wishlistService.getWish(1); //MAGIC NUMBER
+            Wish wish = wishlistService.getWish(name, title);
             if (wish != null) {
                 model.addAttribute("wish", wish);
                 model.addAttribute("wishlist", session.getAttribute("wishlist"));
                 model.addAttribute("redirectionUrl", "/"+ title + "/view");
+                session.setAttribute("wish", wish);
                 return "view-wish";
             }
         }
@@ -139,13 +141,15 @@ public class WishlistController
 //        return "wish-list";
 //    }
 
-    @GetMapping("/{name}/edit")
-    public String showUpdateWishForm(@PathVariable int name, Model model, HttpSession session)
+    @GetMapping("{title}/{name}/edit")
+    public String showUpdateWishForm(@PathVariable String title, @PathVariable String name, Model model, HttpSession session)
     {
         if (session.getAttribute("account") != null) {
-            Wish wish = wishlistService.getWish(name);
-            if (wish != null) {
+            Wish wish = wishlistService.getWish(name, title);
+            Wishlist wishlist = wishlistService.getWishlist(title);
+            if (wish != null && wishlist != null) {
                 model.addAttribute("wish", wish);
+                model.addAttribute("wishlist", wishlist);
 
                 return "update-wish-form";
             }
@@ -157,7 +161,6 @@ public class WishlistController
     public String deleteWish(@PathVariable String name, RedirectAttributes redirectAttributes, @PathVariable String title)
     {
         boolean deleted = wishlistService.deleteWish(name, title);
-        //wishlistService.deleteWish(wish.getId());
         if (deleted)
         {
             redirectAttributes.addFlashAttribute("message", "Wish deleted");
@@ -171,11 +174,11 @@ public class WishlistController
         return "redirect:/wishes/" + title + "/view";
     }
 
-    @PostMapping("/update")
-    public String updateWish(@ModelAttribute Wish wish)
+    @PostMapping("{title}/{name}/update")
+    public String updateWish(@ModelAttribute Wish wish, @PathVariable String title)
     {
-        wishlistService.updateWish(wish);
-        return "redirect:/wishes";
+        wishlistService.updateWish(wish, title);
+        return "redirect:/wishes/" + title + "/view";
     }
 
 }

@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit wish</title>
+    <link rel="styleSheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<form action="#" th:action="@{/wishes/{title}/{name}/update(title=${wishlist.title}, name=${wish.name})}" th:object="${wish}" method="post">
+    <label for="wishName">Rename of your wish?</label>
+    <input id="wishName" type="text" th:field="${wish.name}" th:placeholder="Name">
+    <label for="wishDescription">Description of your wish</label>
+    <textarea id="wishDescription" type="text" th:field="${wish.description}" th:placeholder="Description" rows="5"></textarea>
+    <input id="wishUrl" type="url" th:field="${wish.url}" th:placeholder="url">
+    <button class="formButton" type="submit">Edit wish</button>
+    <a class="formButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Back</a>
+</form>
+</body>
+</html>

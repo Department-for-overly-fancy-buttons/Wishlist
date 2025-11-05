@@ -24,7 +24,11 @@ public class WishlistService {
     }
 
     public Wishlist getWishlist(String name) {
+
         Wishlist wishlist = wishlistRepository.findWishlistByName(name);
+        if(wishlist == null){
+            //throw new WishListNotFoundException();
+        }
         List<Wish> wishes = wishlistRepository.getAllWishes(wishlist.getId());
         wishlist.setWishes(wishes);
         return wishlist;
@@ -47,8 +51,9 @@ public class WishlistService {
         return wishlistRepository.getAllWishes(wishlistId);
     }
 
-    public Wish getWish(int id) {
-        return wishlistRepository.getWish(id);
+    public Wish getWish(String wishName, String wishlistTitle) {
+        int wishlistId = getWishlist(wishlistTitle).getId();
+        return wishlistRepository.getWish(wishName, wishlistId);
     }
 
     /*public Wish getName(String name)*/
@@ -68,12 +73,17 @@ public class WishlistService {
         return wishlistRepository.deleteWishlistById(id) > 0;
     }
 
-    public void updateWish(Wish wish) {
-        wishlistRepository.updateWish(wish);
+    public void updateWish(Wish updatedWish, String title) {
+        int wishlistId = getWishlist(title).getId();
+        Wish deprecatedWish = getWish(updatedWish.getName(), title);
+        if(updatedWish.getName().equalsIgnoreCase(deprecatedWish.getName())){
+            throw new DuplicateWishException("There already exists a wish, in this wishlist, by this name. Try a different name");
+        }
+        wishlistRepository.updateWish(updatedWish, deprecatedWish, wishlistId);
     }
 
     public Account addAccount(Account account) {
-        if(!account.getPassword().isBlank() && account.getUsername().isBlank()) {
+        if(!account.getPassword().isBlank() && !account.getUsername().isBlank()) {
             try {
                 return wishlistRepository.addAccount(account);
             } catch (DataIntegrityViolationException ex) { //DataIntegrityViolationException is thrown when there is an attempt to violate the database schema (in this case the UNIQUE in username)

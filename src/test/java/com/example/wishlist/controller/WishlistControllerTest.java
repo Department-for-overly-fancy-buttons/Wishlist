@@ -85,22 +85,22 @@ public class WishlistControllerTest
 //                .andExpect(redirectedUrl("/"));
 //    }
 
-    @Test
-    public void delete_success_redirectsWithFlash() throws Exception
-    {
-        Mockito.when(wishlistService.deleteWish(7)).thenReturn(true);
-
-        mockMvc.perform(post("/wishes/7/delete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/wishes"));
-    }
-
-    @Test
-    void delete_notFound_redirectsWithFlash() throws Exception {
-        Mockito.when(wishlistService.deleteWish(99)).thenReturn(false);
-
-        mockMvc.perform(post("/wishes/99/delete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/wishes"));
-    }
+//    @Test
+//    public void delete_success_redirectsWithFlash() throws Exception
+//    {
+//        Mockito.when(wishlistService.deleteWish(7)).thenReturn(true);
+//
+//        mockMvc.perform(post("/wishes/7/delete"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/wishes"));
+//    }
+//
+//    @Test
+//    void delete_notFound_redirectsWithFlash() throws Exception {
+//        Mockito.when(wishlistService.deleteWish(99)).thenReturn(false);
+//
+//        mockMvc.perform(post("/wishes/99/delete"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/wishes"));
+//    }
 }

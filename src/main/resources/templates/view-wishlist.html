@@ -26,13 +26,11 @@
             <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>
         </td>
         <td>
-            <form action="#" th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
-                <button class="linkToButton" type="submit">edit wish</button>
-            </form>
+            <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/edit(title=${wishlist.title}, name=${wish.name})}">Edit wish</a>
         </td>
         <td>
             <form action="#" th:action="@{/wishes/{title}/{name}/delete(title=${wishlist.title}, name=${wish.name})}" method="post">
-                <button class="linkToButton" type="submit">delete wish</button>
+                <button class="wishlistButton" type="submit">Delete wish</button>
             </form>
         </td>
     </tr>

@@ -10,24 +10,22 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <div id="viewWishBox">
     <h1 class="textBox">Wish</h1>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Link</th>
-    </tr>
-    <tr>
-        <td th:text="${wish.name}"></td>
-        <td th:text="${wish.description}"></td>
-        <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
-    </tr>
-</table>
-<form action="#"  th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
-    <button class="wishlistButton" type="submit">edit wish</button>
-</form>
-<form action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
-    <button class="wishlistButton" type="submit">delete wish</button>
-</form>
-<a class="wishlistButton" th:href="@{${redirectionUrl}}">back to wishlist</a>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Link</th>
+        </tr>
+        <tr>
+            <td th:text="${wish.name}"></td>
+            <td th:text="${wish.description}"></td>
+            <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
+        </tr>
+    </table>
+    <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/edit(title=${wishlist.title}, name=${wish.name})}">Edit wish</a>
+    <form action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
+        <button class="wishlistButton" type="submit">Delete wish</button>
+    </form>
+    <a class="wishlistButton" th:href="@{${redirectionUrl}}">Back to wishlist</a>
 </body>
 </html>
