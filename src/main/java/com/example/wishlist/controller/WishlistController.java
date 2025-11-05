@@ -15,10 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class WishlistController
 {
     private final WishlistService wishlistService;
+    private final int sessionLength;
 
     public WishlistController(WishlistService wishlistService)
     {
         this.wishlistService = wishlistService;
+        this.sessionLength = 1800;
     }
 
     @GetMapping("/create/account")
@@ -32,7 +34,7 @@ public class WishlistController
         Account newAccount = wishlistService.addAccount(account);
         if(newAccount != null) {
             session.setAttribute("account", newAccount);
-            session.setMaxInactiveInterval(180);
+            session.setMaxInactiveInterval(sessionLength);
             return "redirect:/wishes/my_wishlists";
         }
         return "redirect:/";
@@ -52,7 +54,7 @@ public class WishlistController
     public String LogIn(@ModelAttribute Account account, HttpSession session){
         Account foundAccount = wishlistService.logIn(account);
         session.setAttribute("account", foundAccount);
-        session.setMaxInactiveInterval(180);
+        session.setMaxInactiveInterval(sessionLength);
         return "redirect:/wishes/my_wishlists";
     }
 

@@ -24,7 +24,7 @@
                 </form>
             </td>
             <td>
-                <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}"
+                <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}/delete(name=${wish.name})}"
                       method="post">
                     <button class="wishlistButton" type="submit">Delete wish</button>
                 </form>
