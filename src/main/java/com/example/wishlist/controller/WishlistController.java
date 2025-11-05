@@ -108,6 +108,7 @@ public class WishlistController
             Wish wish = wishlistService.getWish(name, wishlistService.getWishlistId(title, account.getAccountId()));
             if (wish != null) {
                 model.addAttribute("wish", wish);
+                model.addAttribute("title",title);
                 model.addAttribute("wishlist", session.getAttribute("wishlist"));
                 model.addAttribute("redirectionUrl", title + "/view");
                 session.setAttribute("wish", wish);
