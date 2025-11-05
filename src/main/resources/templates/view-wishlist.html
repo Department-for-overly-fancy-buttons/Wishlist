@@ -21,7 +21,7 @@
         <tr th:each="wish: ${wishlist.wishes}">
             <td th:text="${wish.name}"></td>
             <td th:text="${wish.description}"></td>
-            <td><a class="wishlistButton" th:href="${wish.url}">Link</a></td>
+            <td><a th:if="${!wish.url.isBlank()}" class="wishlistButton" th:href="${wish.url}">Link</a></td>
             <td>
                 <a class="wishlistButton"
                    th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>

@@ -13,7 +13,7 @@
     <label for="wishDescription">Description of your wish</label>
     <textarea id="wishDescription" type="text" th:field="${wish.description}" th:placeholder="Description" rows="5"></textarea>
     <label for="wishUrl">Url for your wish</label>
-    <input id="wishUrl" type="url" th:field="${wish.url}" th:placeholder="url">
+    <input id="wishUrl" type="url" th:required="false" th:field="${wish.url}" th:placeholder="url">
     <button class="formButton" type="submit">Add wish</button>
     <a class="formButton" th:href="@{/wishes/{back}(back=${redirectionUrl})}">Back to wishlist</a>
 

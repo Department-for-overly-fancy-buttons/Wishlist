@@ -18,7 +18,7 @@
         <tr>
             <td th:text="${wish.name}"></td>
             <td th:text="${wish.description}"></td>
-            <td><a class="wishlistButton" th:href="${wish.url}">Link</a></td>
+            <td><a th:if="${!wish.url.isBlank()}" class="wishlistButton" th:href="${wish.url}">Link</a></td>
             <td id="tdViewWishEditButton">
                 <a class="wishlistButton" id="viewWishEditButton" th:href="@{/wishes/{title}/{name}/edit(title=${title}, name=${wish.name})}">Edit wish</a>
             </td>

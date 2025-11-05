@@ -3,8 +3,8 @@ VALUES ("Freja Johannessen", "1235"),
        ("Ingor Slutspurt", "JEGERSAAGLADFORMINCYKEL");
 
 INSERT INTO Wishlists (Title, OwnerID)
-VALUES ("Bog Ønsker", 1),
-       ("Julegave Ønsker", 1),
+VALUES ("Bog Oensker", 1),
+       ("Julegave Oensker", 1),
        ("Cykeludstyr", 2);
 
 INSERT INTO Wishes (Name, Description, WishListId)
