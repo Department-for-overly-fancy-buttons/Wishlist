@@ -228,6 +228,10 @@ label {
     margin: auto;
 }
 
+#tdViewWishEditButton{
+    min-inline-size: 100px;
+}
+
 @keyframes animate_79 {
     0% {
         background-position: 0%;
