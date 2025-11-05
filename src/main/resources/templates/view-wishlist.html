@@ -27,12 +27,12 @@
         </td>
         <td>
             <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
-                <button class="wishlistButton" type="submit">Edit wish</button>
+                <button class="wishlistButton" type="submit">edit wish</button>
             </form>
         </td>
         <td>
-            <form class="wishlistButtonForm" action="#" th:action="@{/wishes/{name}(name=${wish.name})/delete}" method="post">
-                <button class="wishlistButton" type="submit">Delete wish</button>
+            <form class="wishlistButtonForm"  action="#" th:action="@{/wishes/{title}/{name}/delete(title=${wishlist.title}, name=${wish.name})}" method="post">
+                <button class="wishlistButton" type="submit">delete wish</button>
             </form>
         </td>
     </tr>

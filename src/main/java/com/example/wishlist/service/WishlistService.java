@@ -53,9 +53,10 @@ public class WishlistService {
 
     /*public Wish getName(String name)*/
 
-    public boolean deleteWish(int id) {
+    public boolean deleteWish(String wishName, String wishlistTitle) {
+        int wishlistID = getWishlist(wishlistTitle).getId();
         try {
-            return wishlistRepository.deleteWishById(id) > 0;
+            return wishlistRepository.deleteWishById(wishName, wishlistID) > 0;
         }catch (DataIntegrityViolationException ex){
             throw new WishNotFoundException("A wish of the chosen name does not exist");
         } catch (DataAccessException dataAccessException) {
