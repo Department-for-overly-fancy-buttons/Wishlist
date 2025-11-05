@@ -97,7 +97,7 @@ public class WishlistRepository
     }
 
     public int deleteWishlistById(int id){
-        return jdbcTemplate.update("DELETE FROM wishlists WHERE wishId = ?", id);
+        return jdbcTemplate.update("DELETE FROM wishlists WHERE wishlistId = ?", id);
     }
 
     public void updateWish(Wish updatedWish, Wish deprecatedWish)

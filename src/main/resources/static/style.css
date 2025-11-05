@@ -32,7 +32,7 @@ nav {
     z-index: 10;
     backdrop-filter: blur(8px);
     display: grid;
-    grid-template-columns: 45% auto auto;
+    grid-template-columns: 90% 20%;
     background: linear-gradient(90deg, pink, palegreen, lightpink, turquoise, pink);
     background-size: 400%;
     animation: animate_79 50s linear infinite;
