@@ -61,4 +61,12 @@ public class GlobalExceptionHandler {
         return "error/404";
     }
 
+    @ExceptionHandler(WishlistNotFoundException.class)
+    public String handleWishlistNotFound(WishlistNotFoundException ex, Model model) {
+        model.addAttribute("status", HttpStatus.NOT_FOUND.value());
+        model.addAttribute("error", "Not Found");
+        model.addAttribute("message", ex.getMessage());
+        return "error/404";
+    }
+
 }

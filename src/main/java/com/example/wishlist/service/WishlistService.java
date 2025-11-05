@@ -23,11 +23,12 @@ public class WishlistService {
         return wishlistRepository.getAllWishlists(accountId);
     }
 
-    public Wishlist getWishlist(String name) {
+    public Wishlist getWishlist(String title, int ownerId) {
 
-        Wishlist wishlist = wishlistRepository.findWishlistByName(name);
+        Wishlist wishlist = wishlistRepository.findWishlistByName(title, ownerId);
+        System.out.println(title + " " + ownerId);
         if(wishlist == null){
-            //throw new WishListNotFoundException();
+            throw new WishlistNotFoundException("A wishlist of the chosen name does not exist");
         }
         List<Wish> wishes = wishlistRepository.getAllWishes(wishlist.getId());
         wishlist.setWishes(wishes);
@@ -38,7 +39,7 @@ public class WishlistService {
         if (wish != null
                 && wish.getName() != null
                 && !wish.getName().isBlank()) {
-            if(wishlistRepository.getWishByName(wish.getName()) != null){
+            if(getWish(wish.getName(), wish.getWishlistId()) != null){
                 throw new DuplicateWishException("A wish of the chosen name already exists, please try a different name");
             }
             return wishlistRepository.addWish(wish);
@@ -51,15 +52,14 @@ public class WishlistService {
         return wishlistRepository.getAllWishes(wishlistId);
     }
 
-    public Wish getWish(String wishName, String wishlistTitle) {
-        int wishlistId = getWishlist(wishlistTitle).getId();
-        return wishlistRepository.getWish(wishName, wishlistId);
+    public Wish getWish(String wishName, int wishlistId) {
+        //Throw WishNotFOundException
+            return wishlistRepository.getWish(wishName, wishlistId);
+
     }
 
-    /*public Wish getName(String name)*/
-
-    public boolean deleteWish(String wishName, String wishlistTitle) {
-        int wishlistID = getWishlist(wishlistTitle).getId();
+    public boolean deleteWish(String wishName, String wishlistTitle, Account account) {
+        int wishlistID = getWishlist(wishlistTitle, account.getAccountId()).getId();
         try {
             return wishlistRepository.deleteWishById(wishName, wishlistID) > 0;
         }catch (DataIntegrityViolationException ex){
@@ -73,12 +73,13 @@ public class WishlistService {
         return wishlistRepository.deleteWishlistById(id) > 0;
     }
 
-    public void updateWish(Wish updatedWish, String title) {
-        int wishlistId = getWishlist(title).getId();
-        Wish deprecatedWish = getWish(updatedWish.getName(), title);
-        if(updatedWish.getName().equalsIgnoreCase(deprecatedWish.getName())){
-            throw new DuplicateWishException("There already exists a wish, in this wishlist, by this name. Try a different name");
+    public void updateWish(Wish updatedWish, String deprecatedName, int wishlistId) {
+        Wish wishWithSameName = getWish(updatedWish.getName(), wishlistId);
+        if(wishWithSameName != null && wishWithSameName.getId() != getWish(deprecatedName, wishlistId).getId()){
+            System.out.println(wishWithSameName.getId() +" != " +  updatedWish.getId());
+            throw new DuplicateWishException("A wish of the chosen name already exists");
         }
+        Wish deprecatedWish = getWish(deprecatedName, wishlistId);
         wishlistRepository.updateWish(updatedWish, deprecatedWish, wishlistId);
     }
 
@@ -113,6 +114,16 @@ public class WishlistService {
                 throw new DuplicateWishlistException("A wishlist of the chosen name already exists, please try a different name");
             }
         }
-        return wishlistRepository.addWishlist(wishlist);
+        try {
+            return wishlistRepository.addWishlist(wishlist);
+        }catch (DataIntegrityViolationException ex) {
+            throw new DuplicateWishlistException("A wishlist of the chosen title already exists");
+        } catch (DataAccessException dataAccessException) {
+            throw new DatabaseOperationException("The wishlist has failed to be created", dataAccessException);
+        }
+    }
+
+    public int getWishlistId(String wishlistTitle, int ownerId) {
+        return getWishlist(wishlistTitle, ownerId).getId();
     }
 }
