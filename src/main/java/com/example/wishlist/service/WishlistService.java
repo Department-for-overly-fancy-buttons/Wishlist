@@ -79,7 +79,6 @@ public class WishlistService {
         } catch (DataIntegrityViolationException ex) {
             throw new WishNotFoundException("A wishlist of the chosen title does not exist");
         } catch (DataAccessException dataAccessException) {
-            dataAccessException.printStackTrace();
             throw new DatabaseOperationException("The chosen wishlist has failed to be deleted", dataAccessException);
         }
     }
