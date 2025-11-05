@@ -73,8 +73,15 @@ public class WishlistService {
         }
     }
 
-    public boolean deleteWishlist(int id) {
-        return wishlistRepository.deleteWishlistById(id) > 0;
+    public boolean deleteWishlist(int wishlistId) {
+        try {
+            return wishlistRepository.deleteWishlistById(wishlistId) > 0;
+        } catch (DataIntegrityViolationException ex) {
+            throw new WishNotFoundException("A wishlist of the chosen title does not exist");
+        } catch (DataAccessException dataAccessException) {
+            dataAccessException.printStackTrace();
+            throw new DatabaseOperationException("The chosen wishlist has failed to be deleted", dataAccessException);
+        }
     }
 
     public void updateWish(Wish updatedWish, String deprecatedName, int wishlistId) {

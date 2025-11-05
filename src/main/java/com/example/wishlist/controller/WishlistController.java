@@ -182,5 +182,28 @@ public class WishlistController
         return "redirect:/wishes/" + title + "/view";
     }
 
+    @PostMapping("{title}/delete")
+    public String deleteWishlist(RedirectAttributes redirectAttributes, @PathVariable String title, HttpSession session)
+    {
+        boolean deleted = wishlistService.deleteWishlist(((Wishlist) session.getAttribute("wishlist")).getId());
+        if (deleted)
+        {
+            redirectAttributes.addFlashAttribute("message", "Wish deleted");
+            redirectAttributes.addFlashAttribute("messageType", "success");
+        }
+        else
+        {
+            redirectAttributes.addFlashAttribute("message", "Wish did not exist and could therefore not be deleted");
+            redirectAttributes.addFlashAttribute("messageType", "error");
+        }
+        return "redirect:/wishes/my_wishlists";
+    }
+
+   @GetMapping("log_out")
+    public String logOut(HttpSession session){
+        session.removeAttribute("account");
+        return "redirect:/";
+   }
+
 }
 

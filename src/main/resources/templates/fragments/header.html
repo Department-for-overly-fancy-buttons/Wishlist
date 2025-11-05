@@ -1,5 +1,6 @@
 <div th:fragment="header">
     <nav>
         <div><a href="/wishes/my_wishlists" title="Gå tilbage til forsiden">Wishlist</a></div>
+        <div><a class="wishlistButton" th:if="${#ctx.session.account}!=null" href="/wishes/log_out" title="log out of account">log out</a></div>
     </nav>
 </div>
