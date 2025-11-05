@@ -134,9 +134,10 @@ public class WishlistController
     @PostMapping("/save")
     public String addWish(@ModelAttribute Wish wish, Model model, HttpSession session)
     {
-        wish.setWishlistId((Integer) ((Wishlist) session.getAttribute("wishlist")).getId());
+        Wishlist wishlist = (Wishlist) session.getAttribute("wishlist");
+        wish.setWishlistId((Integer) wishlist.getId());
         Wish resultingWish = wishlistService.addWish(wish);
-        return (resultingWish != null) ? "redirect:/wishes/my_wishlists" : "redirect:/";
+        return (resultingWish != null) ? "redirect:/wishes/" + wishlist.getTitle() + "/view" : "redirect:/";
     }
 
 //    @GetMapping("/")
