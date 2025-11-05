@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,34 +10,25 @@
 
 <div id="viewWishesBox">
     <h1 class="textBox">Wishes</h1>
-<table>
-    <tr th:if="${wishlist.wishes.isEmpty()}">There are no wishes in this wishlist</tr>
-    <tr th:if="${!wishlist.wishes.isEmpty()}">
-        <th>Name</th>
-        <th>Description</th>
-        <th>Link</th>
-    </tr>
-    <tr th:each="wish: ${wishlist.wishes}">
-        <td th:text="${wish.name}"></td>
-        <td th:text="${wish.description}"></td>
-        <td><a class="wishlistButton" th:href="${wish.url}">link</a></td>
-        <td>
-            <a class="wishlistButton" th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>
-        </td>
-        <td>
-            <form action="#" th:action="@{/wishes/{name}(name=${wish.name})/edit}" method="post">
-                <button class="linkToButton" type="submit">edit wish</button>
-            </form>
-        </td>
-        <td>
-            <form action="#" th:action="@{/wishes/{title}/{name}/delete(title=${wishlist.title}, name=${wish.name})}" method="post">
-                <button class="linkToButton" type="submit">delete wish</button>
-            </form>
-        </td>
-    </tr>
-</table>
-
-<a class="wishlistButton" id="addNewWish" th:href="@{/wishes/add}">Add new wish</a>
+    <table>
+        <tr th:if="${wishlist.wishes.isEmpty()}">There are no wishes in this wishlist</tr>
+        <tr th:if="${!wishlist.wishes.isEmpty()}">
+            <th>Name</th>
+            <th>Description</th>
+            <th>Link</th>
+        </tr>
+        <tr th:each="wish: ${wishlist.wishes}">
+            <td th:text="${wish.name}"></td>
+            <td th:text="${wish.description}"></td>
+            <td><a class="wishlistButton" th:href="${wish.url}">Link</a></td>
+            <td>
+                <a class="wishlistButton"
+                   th:href="@{/wishes/{title}/{name}/view(title=${wishlist.title}, name=${wish.name})}">Open</a>
+            </td>
+        </tr>
+    </table>
+    <a class="wishlistButton" id="addNewWish" th:href="@{/wishes/{title}/add(title=${wishlist.title})}">Add new wish</a>
+    <a class="wishlistButton" th:href="@{/wishes/my_wishlists}">Back to wishlists</a>
 </div>
 </body>
 </html>

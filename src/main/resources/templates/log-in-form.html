@@ -10,9 +10,9 @@
 
 <div>
     <form action="#" th:action="@{/wishes/login}" th:object="${account}" method="post">
-        <label for="accountUsername">Enter a username</label>
+        <label for="accountUsername">Enter username</label>
         <input id="accountUsername" type="text" th:field="${account.username}" th:placeholder="username">
-        <label for="accountPassword">Enter a password</label>
+        <label for="accountPassword">Enter password</label>
         <input id="accountPassword" type="password" th:field="${account.password}" th:placeholder="password">
         <button class="formButton" type="submit">Log in</button>
         <a class="formButton" th:href="@{/}">Back</a>
