@@ -18,11 +18,11 @@
     <tr th:each="wishlist: ${wishlists}">
         <td th:text="${wishlist.title}"></td>
         <td>
-            <a class="wishlistButton" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Open</a>
+            <a class="wishlistButtonBig" th:href="@{/wishes/{title}/view(title=${wishlist.title})}">Open</a>
         </td>
     </tr>
 </table>
-<a class="wishlistButton" th:href="@{/wishes}">Add new wishlist</a>
+<a class="wishlistButtonBig" th:href="@{/wishes}">Add new wishlist</a>
     </div>
 </body>
 </html>
