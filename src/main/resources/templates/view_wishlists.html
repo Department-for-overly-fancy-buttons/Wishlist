@@ -13,7 +13,7 @@
     <table>
     <tr th:if="${wishlists.isEmpty()}">There are no wishlists</tr>
     <tr th:if="${!wishlists.isEmpty()}">
-        <th>Navn</th>
+        <th>Name</th>
     </tr>
     <tr th:each="wishlist: ${wishlists}">
         <td th:text="${wishlist.title}"></td>
